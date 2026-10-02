@@ -44,7 +44,15 @@ export function tagUrl(base, parkId, loc) {
  */
 export function parsePayload(raw) {
   if (!raw) return null;
-  const text = String(raw).trim();
+  let text = String(raw).trim();
+  // Unwrap redirect links (e.g. Gmail's https://www.google.com/url?q=<real link>&...)
+  // and percent-encoded params (park%3D123%26loc%3DLOC01), so copied links still work.
+  for (let i = 0; i < 3; i++) {
+    const m = text.match(/[?&](?:q|url|u)=([^&]+)/i);
+    if (/\/url\?|redirect|safelinks/i.test(text) && m) { text = m[1]; }
+    if (/%3D|%26|%3F/i.test(text)) { try { text = decodeURIComponent(text); } catch { /* keep */ } }
+    else break;
+  }
   const idx = text.search(/[?#]/);
   const params = new URLSearchParams((idx >= 0 ? text.slice(idx + 1) : text).replace(/#/g, '&'));
   const parkId = params.get('park');

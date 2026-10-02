@@ -4,7 +4,7 @@
  * Voice clips (audio/voice/*.mp3) are cached as they are fetched; the app warms
  * them in the background once (js/core/voice.js warmCache) so clues work offline.
  */
-const CACHE = 'playquest-v3-redesign';
+const CACHE = 'playquest-v4-linkfix';
 const SHELL = [
   './', 'index.html', 'manifest.webmanifest', 'css/app.css', 'fonts/Fredoka.woff2',
   'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png',
