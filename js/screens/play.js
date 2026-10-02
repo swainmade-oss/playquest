@@ -1,213 +1,228 @@
 /**
  * GAME SCREEN (host for all five games)
  * =====================================
- * Spec: game name, current step out of 10, elapsed time, Play Clue button,
- * Pocket Mode toggle (hides on-screen text), test controls (simulate a
- * correct / wrong tap). After the 10th correct tap → badge screen.
- *
- * The host does all plumbing (sounds, vibration, text-to-speech, saving,
- * timers, badge + best time); games in js/games/ only supply rules.
+ * Dominated by a giant picture of WHAT to find (js/ui/views.js) and a giant
+ * "hear it again" button. Pip reads every clue, cheers on correct taps and
+ * gently encourages on wrong ones (never punishing). Stars fill up per step,
+ * streaks earn extra sparkle. Spec bits: game name, step X of 10 (stars + "3/10"),
+ * elapsed time, play-clue button, pocket mode, test controls (🧪, grown-up toggle).
+ * Rules + saving live in js/games/ and js/core/session.js.
  */
 import { store } from '../core/store.js';
-import { sfx, say } from '../core/sound.js';
-import { esc, toast, confetti, buzz, fmtTime, $ } from '../core/util.js';
-import { iconHTML } from '../core/icons.js';
+import { sfx, music } from '../core/audio.js';
+import { esc, fmtTime, pick } from '../core/util.js';
+import { talk, pipHTML, pipMood } from '../ui/mascot.js';
+import { gameArt, floatingShapes } from '../ui/art.js';
+import { VIEWS } from '../ui/views.js';
+import { buzz, flyStar, sparkle } from '../ui/fx.js';
 import { gameById, STEPS } from '../games/index.js';
+import * as session from '../core/session.js';
 import { LOC_CODES } from '../data/playgrounds.js';
+import { L } from '../data/narration.js';
 
-let S = null; // { app, park, game, state, ctx, timer, done }
+let S = null; // { app, park, game, state, timer, lastSec, hurried, nudged }
 
-const ctxFor = (park) => ({ now: () => Date.now(), store, park });
+export const currentPark = () => S?.park || null;
 
-export function render(app, root) {
+const STAR = '<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 6l13 29 32 3-24 21 7 32-28-17-28 17 7-32L5 38l32-3z"/></svg>';
+
+export function render(app, root, params = {}) {
   const park = app.park();
   const game = gameById(app.gameId);
-  if (!park || !game) return app.go('start');
+  if (!park || !game) return app.go('map', {});
 
-  // Resume the saved game for this playground, or start a fresh one.
-  const saved = store.active(park.id);
-  const ctx = ctxFor(park);
+  const saved = session.active(park);
   let state;
-  let resumed = false;
-  if (saved && saved.gameId === game.id && !app.fresh) { state = saved.state; resumed = true; }
-  else { state = game.start(park, ctx); store.saveActive(park.id, game.id, state); }
-  app.fresh = false;
+  if (!params.fresh && saved && saved.gameId === game.id) state = saved.state;
+  else state = session.newGame(park, game.id);
 
-  S = { app, park, game, state, ctx, timer: null, done: false };
+  S = { app, park, game, state, timer: null, lastSec: null, hurried: false, nudged: false, done: false };
   const pocket = store.data.settings.pocket;
+  music.start('game');
 
   root.innerHTML = `
-    <header class="topbar game-top" style="--c:${game.color}">
-      <button class="icon-btn" data-quit aria-label="Back to start">✖️</button>
-      <div class="title"><span class="g-ico">${game.icon}</span> <span class="pocket-hide">${esc(game.name)}</span></div>
-      <button class="pocket-toggle ${pocket ? 'on' : ''}" data-pocket aria-pressed="${pocket}" aria-label="Pocket mode">
-        <span>${pocket ? '🙈' : '👀'}</span><small>Pocket</small></button>
-    </header>
-
-    <div class="status-row">
-      <div class="step-pill" style="--c:${game.color}">Step <b id="step-num">${Math.min(state.step + 1, STEPS)}</b> of ${STEPS}</div>
-      <div class="elapsed">⏱️ <span data-live="elapsed">0:00</span></div>
-    </div>
-    <div class="progress"><div class="progress-fill" id="progress-fill" style="--c:${game.color}"></div></div>
-
-    <main id="game-body" class="game-body"></main>
-
-    <button class="btn btn-clue big" data-clue style="--c:${game.color}">🔊 Play Clue</button>
-
-    ${store.data.settings.testControls ? testPanel(park) : ''}
-    <div class="nfc-chip" data-nfc-chip></div>
-    <div id="overlay"></div>
-  `;
+    <div class="game-bg ${game.dark ? 'dark' : ''}" style="--c:${game.color};--c2:${game.color2}"></div>
+    ${floatingShapes(7, game.id.length)}
+    <div class="game ${game.dark ? 'dark' : ''}" style="--c:${game.color};--c2:${game.color2};--ink:${game.ink}">
+      <header class="game-top">
+        <button class="round-btn" data-quit aria-label="Back to the map">✕</button>
+        <div class="game-title"><span class="gt-art">${gameArt(game.id)}</span>
+          <span class="gt-text"><span class="gt-name pocket-hide">${esc(game.short)}</span><span class="timer-chip">⏱️ <span data-elapsed>0:00</span></span></span></div>
+        <button class="round-btn pocket-btn ${pocket ? 'on' : ''}" data-pocket aria-pressed="${pocket}" aria-label="Pocket mode">${pocket ? '🙈' : '👀'}</button>
+      </header>
+      <div class="stars-row">
+        <div class="stars" data-stars></div>
+        <span class="step-count"><b data-step>1</b>/${STEPS}</span>
+      </div>
+      <main class="game-main" data-main></main>
+      <span class="streak" data-streak hidden></span>
+      <div class="game-bottom">
+        <div class="guide guide-game"><div class="guide-pip">${pipHTML()}</div><div class="bubble pocket-hide" data-bubble></div></div>
+        <button class="hear-btn" data-clue aria-label="Hear the clue again">
+          <span class="hear-ring"></span>
+          <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M18 40h14l20-16v52L32 60H18z" fill="#fff" stroke="#2D2A4A" stroke-width="6" stroke-linejoin="round"/>
+          <path d="M62 36c6 8 6 20 0 28M72 26c12 14 12 34 0 48" fill="none" stroke="#2D2A4A" stroke-width="6" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      ${store.data.settings.testControls ? testPanel(park) : ''}
+      <div class="react" data-react aria-live="polite"></div>
+      <div class="nfc-chip" data-nfc-chip hidden></div>
+    </div>`;
   root.classList.toggle('pocket', pocket);
   root.onclick = onClick;
 
   renderBody();
   startTimer();
-  // Speak the current clue (starting or resuming). When resuming because a tag
-  // link was opened, app.handleTap applies the tap right after this.
-  if (!app.pendingTap) say((resumed ? 'Welcome back! ' : `${game.name}! `) + game.clue(state, park, ctx));
+
+  const clue = game.clue(state, park);
+  if (params.replay) present(params.replay, true);
+  else if (params.welcome || (!params.fresh && saved)) { talk([L.welcomeBack, clue], { show: clue }); pipMood('cheer'); }
+  else talk(clue);
 }
 
 export function cleanup() {
   if (S?.timer) clearInterval(S.timer);
-  window.speechSynthesis?.cancel();
+  document.getElementById('app').classList.remove('pocket');
   S = null;
 }
 
 /** Called by app.handleTap for every tag tap while this screen is showing. */
 export function onTap(app, park, loc) {
-  if (!S || S.done) return !!S;
-  if (park.id !== S.park.id) {
-    sfx('bad'); buzz([80, 60, 80]);
-    toast('🤔 That tag is from a different playground!', 'bad');
-    say('That tag is from a different playground!');
-    return true;
-  }
+  if (!S) return false;
+  if (S.done) return true;
   flashLoc(loc);
-  apply(S.game.tap(S.state, loc, S.park, S.ctx));
+  present(session.applyTap(S.park, S.game.id, S.state, loc));
   return true;
 }
 
-// ------------------------------------------------------------------ UI
+// ------------------------------------------------------------------ rendering
+
+function renderBody() {
+  const { game, park, state } = S;
+  const root = S.app.root;
+  const pocket = store.data.settings.pocket;
+  const step = session.stepOf(state);
+  root.querySelector('[data-step]').textContent = Math.min(state.step + 1, STEPS);
+  root.querySelector('[data-stars]').innerHTML = Array.from({ length: STEPS }, (_, i) =>
+    `<span class="star ${i < state.step ? 'on' : i === state.step ? 'now' : ''}" data-star="${i}">${STAR}</span>`).join('');
+  const streak = root.querySelector('[data-streak]');
+  streak.hidden = (state.streak || 0) < 2;
+  streak.textContent = `🔥 ${state.streak || 0}`;
+  root.querySelector('[data-main]').innerHTML = pocket
+    ? `<div class="pocket-card">
+         <div class="pocket-ear">👂</div>
+         <div class="pocket-num">${step + 1}<small>/${STEPS}</small></div>
+         <div class="pocket-icons">👂 → 👀 → 📱</div>
+       </div>`
+    : `<div class="view view-${game.id}">${VIEWS[game.id].main(state, park, game)}</div>`;
+  const bubble = root.querySelector('[data-bubble]');
+  if (bubble && !bubble.textContent) bubble.textContent = game.clue(state, park);
+  updateLive();
+}
+
+function updateLive() {
+  if (!S) return;
+  const { game, park, state, app } = S;
+  const el = app.root.querySelector('[data-elapsed]');
+  if (el) el.textContent = fmtTime(Date.now() - state.startedAt, false);
+  if (store.data.settings.pocket) return;
+  const info = VIEWS[game.id].live?.(state, park, app.root);
+  if (!info) return;
+  // Power Outage: clock ticks for the last 10 seconds, "Hurry!" at 10
+  if (info.secs != null && info.secs !== S.lastSec) {
+    if (info.secs <= 10 && info.secs > 0 && S.lastSec != null) sfx(info.secs % 2 ? 'tick' : 'tock');
+    if (info.secs === 10 && !S.hurried) { S.hurried = true; talk(L.hurry, { queue: true, bubble: false }); }
+    S.lastSec = info.secs;
+  }
+  // Loop: nudge once per stop if the walker stopped
+  if (info.nudge && !S.nudged) { S.nudged = true; sfx('boing'); pipMood('think'); talk(L.nudge, { queue: true, bubble: false }); }
+}
+
+function startTimer() {
+  S.timer = setInterval(() => {
+    if (!S || S.done) return;
+    const o = session.applyTick(S.park, S.game.id, S.state);
+    if (o) present(o);
+    updateLive();
+  }, 250);
+}
+
+// ------------------------------------------------------------------ outcomes
+
+/** Show + play an Outcome (from a tap, a timer, or a tag link that opened the app). */
+function present(o, cold = false) {
+  if (!o || !S) return;
+  const { game, park, state, app } = S;
+  const root = app.root;
+  const main = root.querySelector('[data-main]');
+
+  if (o.result === 'correct') {
+    sfx('correct'); buzz(60);
+    pipMood('cheer');
+    const reveal = o.reveal ? `<span class="react-reveal">${o.reveal}</span>` : '';
+    react(`<div class="react-card good">${reveal || `<span class="react-star">${STAR}</span>`}</div>`);
+    const streakLine = L.streak[o.streak];
+    if (streakLine) sfx('streak', 0.5);
+    S.hurried = false; S.nudged = false; S.lastSec = null;
+    if (o.win) {
+      S.done = true;
+      renderBody();
+      flyStar(main, root.querySelector(`[data-star="${STEPS - 1}"]`));
+      setTimeout(() => S && app.go('win', { parkId: park.id, gameId: game.id, win: o.win }), 1100);
+      return;
+    }
+    renderBody();
+    const target = root.querySelector(`[data-star="${state.step - 1}"]`);
+    flyStar(main, target, () => { sfx('star'); sparkle(target, 8); });
+    const lines = [o.say, streakLine, game.clue(state, park)].filter(Boolean);
+    talk(lines, { show: game.clue(state, park) });
+  } else if (o.result === 'wrong') {
+    if (o.kind === 'timeout') { sfx('powerdown'); buzz([100, 50, 100]); root.querySelector('.game')?.classList.add('blackout'); setTimeout(() => root.querySelector('.game')?.classList.remove('blackout'), 900); }
+    else { sfx('uhoh'); buzz([40, 30, 40]); }
+    pipMood('sad', 1300);
+    S.lastSec = null; S.hurried = false;
+    renderBody();
+    if (o.flip) {
+      const card = root.querySelector(`[data-mcard="${o.flip}"]`);
+      if (card) { card.classList.add('flipping'); sfx('flip', 0.15); setTimeout(() => sparkle(card, 6), 300); }
+    } else {
+      root.querySelector('.view')?.classList.add('wobble');
+    }
+    const icon = o.kind === 'hint' ? `<b class="react-num">${esc(o.toast || '')}</b>` : o.kind === 'timeout' ? '🔋' : '👂';
+    react(`<div class="react-card soft">${icon}<small>${o.kind === 'hint' ? '' : 'Try again!'}</small></div>`);
+    const encourage = o.say || pick(L.wrong);
+    talk([encourage, game.clue(state, park)], { show: encourage });
+  }
+  if (cold) { /* a tag link opened the app: the tap was counted before the splash */ }
+}
+
+function react(html) {
+  const el = S.app.root.querySelector('[data-react]');
+  el.innerHTML = html;
+  el.classList.remove('show'); void el.offsetWidth; el.classList.add('show');
+  clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('show'), 1600);
+}
+
+// ------------------------------------------------------------------ test controls
 
 function testPanel(park) {
   return `
-    <section class="test-panel">
-      <div class="test-head">🧪 Test controls <small>(no tag needed)</small></div>
+    <button class="test-fab" data-testfab aria-label="Test controls">🧪</button>
+    <section class="test-panel" data-testpanel hidden>
+      <div class="test-head">🧪 Test controls <small>(no tag needed)</small><button data-testfab aria-label="Close">✕</button></div>
       <div class="test-main">
-        <button class="btn btn-go" data-sim="correct">✅ Simulate<br>Correct Tap</button>
-        <button class="btn btn-bad" data-sim="wrong">❌ Simulate<br>Wrong Tap</button>
+        <button class="tbtn good" data-sim="correct">✅ Correct tap</button>
+        <button class="tbtn bad" data-sim="wrong">❌ Wrong tap</button>
       </div>
-      <details class="test-locs">
-        <summary>Tap a specific tag (LOC01–LOC10)</summary>
-        <div class="loc-grid">
-          ${LOC_CODES.map((c) => `<button class="loc-btn" data-loc="${c}">${iconHTML(park.locations[c].icon)}<b>${c}</b><small>${esc(park.locations[c].name)}</small></button>`).join('')}
-        </div>
-      </details>
+      <div class="loc-grid">
+        ${LOC_CODES.map((c) => `<button class="loc-btn" data-loc="${c}"><b>${c}</b><small>${esc(park.locations[c].name)}</small></button>`).join('')}
+      </div>
     </section>`;
 }
 
 function flashLoc(loc) {
   const b = document.querySelector(`[data-loc="${loc}"]`);
   if (b) { b.classList.remove('flash'); void b.offsetWidth; b.classList.add('flash'); }
-}
-
-function renderBody() {
-  const { game, park, state, ctx } = S;
-  const pocket = store.data.settings.pocket;
-  const step = Math.min(state.step, STEPS - 1);
-  $('#step-num').textContent = step + 1;
-  $('#progress-fill').style.width = (state.step / STEPS) * 100 + '%';
-  $('#game-body').innerHTML = pocket
-    ? `<div class="pocket-card pop">
-         <div class="pocket-ico">🙈</div>
-         <div class="pocket-title">Pocket Mode</div>
-         <div class="pocket-step">${step + 1}<small>/ ${STEPS}</small></div>
-         <div class="pocket-sub">👂 Listen · 👀 Look · 📱 Tap</div>
-       </div>`
-    : `${game.view(state, park, ctx)}
-       <div class="clue-card pop" style="--c:${game.color}">
-         <div class="clue-label">🗣️ Clue ${step + 1}</div>
-         <div class="clue-text">${esc(game.clue(state, park, ctx))}</div>
-       </div>`;
-  updateLive();
-}
-
-function updateLive() {
-  if (!S) return;
-  const { game, park, state, ctx } = S;
-  const el = document.querySelector('[data-live="elapsed"]');
-  if (el) el.textContent = fmtTime(Date.now() - state.startedAt, false);
-  if (!game.live) return;
-  for (const [key, val] of Object.entries(game.live(state, park, ctx) || {})) {
-    const node = document.querySelector(`[data-live="${key}"]`);
-    if (!node) continue;
-    const u = typeof val === 'string' ? { text: val } : val;
-    if (u.text != null && node.textContent !== u.text) node.textContent = u.text;
-    if (u.style) Object.assign(node.style, u.style);
-    if (u.cls != null && u.cls !== node.dataset.cls) {
-      if (node.dataset.cls) node.classList.remove(node.dataset.cls);
-      if (u.cls) node.classList.add(u.cls);
-      node.dataset.cls = u.cls;
-    }
-  }
-}
-
-function startTimer() {
-  S.timer = setInterval(() => {
-    if (!S || S.done) return;
-    if (S.game.tick) apply(S.game.tick(S.state, S.park, S.ctx));
-    updateLive();
-  }, 250);
-}
-
-/** Apply an Outcome from a game (see js/games/index.js). */
-function apply(o) {
-  if (!o || !S) return;
-  const { game, park, state, ctx } = S;
-  if (o.result === 'correct') { sfx('good'); buzz(60); }
-  else if (o.result === 'wrong') { sfx('bad'); buzz([80, 60, 80]); }
-  if (o.toast) toast(o.toast, o.result === 'wrong' ? 'bad' : 'good');
-
-  if (o.done) return finish(o.done);
-
-  store.saveActive(park.id, game.id, state);
-  if (o.say) say(o.say);
-  if (o.result === 'correct' || o.reclue) say(game.clue(state, park, ctx), { queue: !!o.say });
-  renderBody();
-}
-
-/** 10th correct tap → badge screen. */
-function finish(done) {
-  const { park, game, state } = S;
-  S.done = true;
-  clearInterval(S.timer);
-  const ms = Date.now() - state.startedAt;
-  const hadBadge = store.gameStats(park.id, game.id).won;
-  const { newBest, prevBest } = store.recordWin(park.id, game.id, ms);
-  store.clearActive(park.id);
-  $('#progress-fill').style.width = '100%';
-
-  setTimeout(() => {
-    if (!S) return;
-    $('#overlay').innerHTML = `
-      <div class="modal badge-screen pop" style="--c:${game.color}">
-        <div class="badge-medal"><span class="bounce">${game.badge.icon}</span></div>
-        <div class="badge-earned">${hadBadge ? 'Badge earned again!' : 'New badge!'}</div>
-        <h2>${esc(game.badge.name)}</h2>
-        <div class="badge-time">⏱️ Total time <b>${fmtTime(ms)}</b></div>
-        <div class="badge-best">${newBest && prevBest != null ? `🏆 New best! (old ${fmtTime(prevBest)})` : newBest ? '🏆 Your first best time!' : `🏆 Best: ${fmtTime(prevBest)}`}</div>
-        ${(done.extra || []).map((l) => `<div class="badge-extra">${l}</div>`).join('')}
-        <div class="badge-park">${iconHTML(park.icon)} ${esc(park.name)} · #${esc(park.id)}</div>
-        <div class="reward-actions">
-          <button class="btn btn-go" data-again>🔁 Play Again</button>
-          <button class="btn btn-alt" data-home>🏠 Back to Start</button>
-        </div>
-      </div>`;
-    sfx('win');
-    confetti(90);
-    say(`Amazing! You earned the ${game.badge.name} badge! Your time was ${Math.floor(ms / 60000)} minutes and ${Math.round((ms % 60000) / 1000)} seconds.`, { queue: true });
-  }, 300);
 }
 
 function onClick(e) {
@@ -222,15 +237,21 @@ function onClick(e) {
       // pick a wrong tag (prefer one not yet revealed, so Memory Mode shows a hint)
       const others = LOC_CODES.filter((c) => c !== want);
       const fresh = others.filter((c) => !state.revealed?.[c]);
-      const pool = fresh.length ? fresh : others;
-      loc = pool[Math.floor(Math.random() * pool.length)];
+      loc = pick(fresh.length ? fresh : others);
     }
     app.handleTap({ parkId: park.id, loc }, 'test');
   } else if (t('[data-loc]')) {
     app.handleTap({ parkId: park.id, loc: t('[data-loc]').dataset.loc }, 'test');
-  } else if (t('[data-clue]')) {
+  } else if (t('[data-testfab]')) {
+    const p = app.root.querySelector('[data-testpanel]');
+    p.hidden = !p.hidden; sfx('tap');
+  } else if (t('[data-clue]') || t('.find-blob') || t('.mem-card') || t('.pocket-card')) {
+    sfx('pop'); buzz(10);
+    const b = app.root.querySelector('[data-clue]'); b.classList.remove('pulse'); void b.offsetWidth; b.classList.add('pulse');
+    talk(game.clue(state, park));
+  } else if (t('[data-mcard]')) {
     sfx('tap');
-    say(game.clue(state, park, S.ctx));
+    talk(L.spotName(park.locations[t('[data-mcard]').dataset.mcard]), { bubble: false });
   } else if (t('[data-pocket]')) {
     store.data.settings.pocket = !store.data.settings.pocket;
     store.save();
@@ -238,17 +259,13 @@ function onClick(e) {
     const btn = t('[data-pocket]');
     btn.classList.toggle('on', on);
     btn.setAttribute('aria-pressed', on);
-    btn.querySelector('span').textContent = on ? '🙈' : '👀';
+    btn.textContent = on ? '🙈' : '👀';
     app.root.classList.toggle('pocket', on);
-    sfx('tap');
-    say(on ? 'Pocket mode on. Listen for the clues!' : 'Pocket mode off.');
+    sfx('boing');
+    talk(on ? [L.pocketOn, game.clue(state, park)] : L.pocketOff, { bubble: false });
     renderBody();
   } else if (t('[data-quit]')) {
-    sfx('tap');
-    app.go('start'); // progress is saved; "Continue" appears on the Start screen
-  } else if (t('[data-again]')) {
-    app.go('play', { gameId: game.id, fresh: true });
-  } else if (t('[data-home]')) {
-    app.go('start');
+    sfx('back');
+    app.go('map', { parkId: park.id }); // progress is saved; the island shows ▶ to continue
   }
 }

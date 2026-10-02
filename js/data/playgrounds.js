@@ -11,7 +11,10 @@
  *
  * LOCATION fields
  *   name   short label kids/parents see ("Big Slide")
- *   icon   emoji or "svg:swing" / "svg:seesaw" (see js/core/icons.js)
+ *   icon   emoji fallback (used when there is no `art`)
+ *   art    illustrated SVG for the spot (see js/ui/art.js SPOTS: slide, swings,
+ *          monkeybars, sandbox, seesaw, tunnel, tower, …). Shown BIG on the game
+ *          screen so pre-readers can see what to find.
  *   hint   phrase used by auto-generated clues ("the tallest slide")
  *   level  'high' | 'low'   (used by High and Low Challenge templates)
  *
@@ -29,6 +32,15 @@
  * Game ids: critters | power | highlow | loop | memory
  */
 
+/**
+ * SHARED TAGS (demo): every playground uses the SAME ten physical chips, which
+ * were written with ?park=123&loc=LOC01..LOC10. A tap counts for whichever
+ * playground is selected in the app (or found by location); the park number on
+ * the tag is only a hint used when no playground has been chosen yet.
+ * A later version can give each playground its own tags (see README).
+ */
+export const SHARED_TAG_PARK_ID = '123';
+
 export const PLAYGROUNDS = [
   // ---------------------------------------------------------------- 123
   {
@@ -38,16 +50,16 @@ export const PLAYGROUNDS = [
     color: '#FFC83D',
     lat: 41.8819, lng: -87.6278,
     locations: {
-      LOC01: { name: 'Front Gate',    icon: '🚪', hint: 'the front gate',            level: 'low' },
-      LOC02: { name: 'Big Slide',     icon: '🛝', hint: 'the tallest slide',         level: 'high' },
-      LOC03: { name: 'Swings',        icon: 'svg:swing', hint: 'the swings',          level: 'high' },
-      LOC04: { name: 'Monkey Bars',   icon: '🐒', hint: 'the monkey bars',           level: 'high' },
-      LOC05: { name: 'Climbing Wall', icon: '🧗', hint: 'the bumpy climbing wall',   level: 'high' },
-      LOC06: { name: 'Sandbox',       icon: '🏖️', hint: 'the sandbox',               level: 'low' },
-      LOC07: { name: 'Seesaw',        icon: 'svg:seesaw', hint: 'the seesaw',         level: 'low' },
-      LOC08: { name: 'Crawl Tunnel',  icon: '🐛', hint: 'the crawl tunnel',          level: 'low' },
-      LOC09: { name: 'Lookout Tower', icon: '🔭', hint: 'the top of the tower',      level: 'high' },
-      LOC10: { name: 'Picnic Bench',  icon: '🧺', hint: 'the picnic bench',          level: 'low' },
+      LOC01: { name: 'Front Gate',    icon: '🚪', hint: 'the front gate',            art: 'gate', level: 'low' },
+      LOC02: { name: 'Big Slide',     icon: '🛝', hint: 'the tallest slide',         art: 'slide', level: 'high' },
+      LOC03: { name: 'Swings',        icon: 'svg:swing', hint: 'the swings',          art: 'swings', level: 'high' },
+      LOC04: { name: 'Monkey Bars',   icon: '🐒', hint: 'the monkey bars',           art: 'monkeybars', level: 'high' },
+      LOC05: { name: 'Climbing Wall', icon: '🧗', hint: 'the bumpy climbing wall',   art: 'climbwall', level: 'high' },
+      LOC06: { name: 'Sandbox',       icon: '🏖️', hint: 'the sandbox',               art: 'sandbox', level: 'low' },
+      LOC07: { name: 'Seesaw',        icon: 'svg:seesaw', hint: 'the seesaw',         art: 'seesaw', level: 'low' },
+      LOC08: { name: 'Crawl Tunnel',  icon: '🐛', hint: 'the crawl tunnel',          art: 'tunnel', level: 'low' },
+      LOC09: { name: 'Lookout Tower', icon: '🔭', hint: 'the top of the tower',      art: 'tower', level: 'high' },
+      LOC10: { name: 'Picnic Bench',  icon: '🧺', hint: 'the picnic bench',          art: 'picnic', level: 'low' },
     },
     games: {
       critters: [
@@ -110,16 +122,16 @@ export const PLAYGROUNDS = [
     color: '#4ECDC4',
     lat: 41.8962, lng: -87.6190,
     locations: {
-      LOC01: { name: 'Entrance Sign', icon: '🪧', hint: 'the entrance sign',     level: 'low' },
-      LOC02: { name: 'Tube Slide',    icon: '🛝', hint: 'the tube slide',        level: 'high' },
-      LOC03: { name: 'Spinner',       icon: '🌀', hint: 'the spinner',           level: 'low' },
-      LOC04: { name: 'Climbing Net',  icon: '🕸️', hint: 'the rope climbing net', level: 'high' },
-      LOC05: { name: 'Wobbly Bridge', icon: '🌉', hint: 'the wobbly bridge',     level: 'high' },
-      LOC06: { name: 'Fire Pole',     icon: '🚒', hint: 'the fire pole',         level: 'high' },
-      LOC07: { name: 'Swings',        icon: 'svg:swing', hint: 'the swings',      level: 'low' },
-      LOC08: { name: 'Drinking Fountain', icon: '🚰', hint: 'the drinking fountain', level: 'low' },
-      LOC09: { name: 'Rocket Tower',  icon: '🚀', hint: 'the top of the rocket tower', level: 'high' },
-      LOC10: { name: 'Bench',         icon: '🪑', hint: 'the big bench',         level: 'low' },
+      LOC01: { name: 'Entrance Sign', icon: '🪧', hint: 'the entrance sign',     art: 'sign', level: 'low' },
+      LOC02: { name: 'Tube Slide',    icon: '🛝', hint: 'the tube slide',        art: 'tubeslide', level: 'high' },
+      LOC03: { name: 'Spinner',       icon: '🌀', hint: 'the spinner',           art: 'spinner', level: 'low' },
+      LOC04: { name: 'Climbing Net',  icon: '🕸️', hint: 'the rope climbing net', art: 'net', level: 'high' },
+      LOC05: { name: 'Wobbly Bridge', icon: '🌉', hint: 'the wobbly bridge',     art: 'bridge', level: 'high' },
+      LOC06: { name: 'Fire Pole',     icon: '🚒', hint: 'the fire pole',         art: 'firepole', level: 'high' },
+      LOC07: { name: 'Swings',        icon: 'svg:swing', hint: 'the swings',      art: 'swings', level: 'low' },
+      LOC08: { name: 'Drinking Fountain', icon: '🚰', hint: 'the drinking fountain', art: 'fountain', level: 'low' },
+      LOC09: { name: 'Rocket Tower',  icon: '🚀', hint: 'the top of the rocket tower', art: 'rocket', level: 'high' },
+      LOC10: { name: 'Bench',         icon: '🪑', hint: 'the big bench',         art: 'bench', level: 'low' },
     },
     games: {
       critters: ['LOC03', 'LOC09', 'LOC07', 'LOC02', 'LOC10', 'LOC05', 'LOC08', 'LOC04', 'LOC06', 'LOC01'].map((loc) => ({ loc })),
@@ -137,16 +149,16 @@ export const PLAYGROUNDS = [
     color: '#FF8C42',
     lat: 41.8676, lng: -87.6140,
     locations: {
-      LOC01: { name: 'Dock Gate',     icon: '⚓', hint: 'the dock gate',          level: 'low' },
-      LOC02: { name: 'Pirate Ship',   icon: '⛵', hint: 'the pirate ship',        level: 'high' },
-      LOC03: { name: 'Rope Ladder',   icon: '🪜', hint: 'the rope ladder',        level: 'high' },
-      LOC04: { name: 'Twisty Slide',  icon: '🛝', hint: 'the twisty slide',       level: 'high' },
-      LOC05: { name: 'Crow\'s Nest',  icon: '🔭', hint: 'the crow\'s nest lookout', level: 'high' },
-      LOC06: { name: 'Treasure Chest', icon: '💰', hint: 'the treasure chest',   level: 'low' },
-      LOC07: { name: 'Sand Beach',    icon: '🏖️', hint: 'the sandy beach',        level: 'low' },
-      LOC08: { name: 'Crawl Tunnel',  icon: '🐛', hint: 'the crawl tunnel',       level: 'low' },
-      LOC09: { name: 'Swings',        icon: 'svg:swing', hint: 'the swings',       level: 'high' },
-      LOC10: { name: 'Palm Bench',    icon: '🌴', hint: 'the palm tree bench',    level: 'low' },
+      LOC01: { name: 'Dock Gate',     icon: '⚓', hint: 'the dock gate',          art: 'anchor', level: 'low' },
+      LOC02: { name: 'Pirate Ship',   icon: '⛵', hint: 'the pirate ship',        art: 'ship', level: 'high' },
+      LOC03: { name: 'Rope Ladder',   icon: '🪜', hint: 'the rope ladder',        art: 'ladder', level: 'high' },
+      LOC04: { name: 'Twisty Slide',  icon: '🛝', hint: 'the twisty slide',       art: 'twistyslide', level: 'high' },
+      LOC05: { name: 'Crow\'s Nest',  icon: '🔭', hint: 'the crow\'s nest lookout', art: 'crowsnest', level: 'high' },
+      LOC06: { name: 'Treasure Chest', icon: '💰', hint: 'the treasure chest',   art: 'treasure', level: 'low' },
+      LOC07: { name: 'Sand Beach',    icon: '🏖️', hint: 'the sandy beach',        art: 'beach', level: 'low' },
+      LOC08: { name: 'Crawl Tunnel',  icon: '🐛', hint: 'the crawl tunnel',       art: 'tunnel', level: 'low' },
+      LOC09: { name: 'Swings',        icon: 'svg:swing', hint: 'the swings',       art: 'swings', level: 'high' },
+      LOC10: { name: 'Palm Bench',    icon: '🌴', hint: 'the palm tree bench',    art: 'palm', level: 'low' },
     },
     games: {
       critters: ['LOC06', 'LOC02', 'LOC08', 'LOC05', 'LOC07', 'LOC03', 'LOC10', 'LOC04', 'LOC09', 'LOC01'].map((loc) => ({ loc })),

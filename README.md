@@ -1,201 +1,219 @@
-# 🛝 PlayQuest: playground NFC quest games (prototype)
+# 🛝 PlayQuest: playground NFC quest games for kids (prototype, redesign)
 
-PlayQuest is a location-based playground game for families with kids aged about 5–12. Players walk to ten
-physical spots on a playground and tap an NFC tag at each one. The app reads the tag, **speaks the next
-clue out loud**, and tracks progress through **10 steps** until the player finishes and earns a **badge**.
+PlayQuest is a location-based playground game for kids aged about 5–12 (often a solo kid or a little
+sibling with a grown-up nearby). Kids walk to ten physical spots on a playground and tap an NFC tag at
+each one. **Pip**, a friendly guide character, **speaks every clue out loud**, cheers on correct taps,
+gently encourages on wrong ones, and hands out a **badge sticker** after 10 steps.
 
+* **Pre-readers can play:** picture-first screens, giant tap targets, almost no text, and every screen is narrated.
 * Installable **PWA**: plain HTML/CSS/ES-module JavaScript with **no build step**. Any static HTTPS host works.
-* Works **offline** after the first load (service worker). Playgrounds often have poor signal.
+* Works **offline** after the first load (service worker, voice clips cached in the background).
 * **Local storage only.** No login, no personal data, and nothing is sent to a server.
-* Big, colorful, icon-first UI. Clues are read aloud (text-to-speech), and **Pocket Mode** hides the text so kids look at the playground instead of the phone.
-* Supports **many playgrounds** from the start. Each one has its own ID and ten tags, LOC01–LOC10. The **nearest playground is suggested by geolocation**, with a manual list and ID entry as the fallback.
+* **Many playgrounds**, nearest one found by geolocation. Badges and best times are kept **per playground**.
 
-**🌐 Live demo:** <https://swainmade-oss.github.io/playquest/> (GitHub Pages, served from the `/playquest/` subpath).
-Example tag link: <https://swainmade-oss.github.io/playquest/?park=123&loc=LOC04>
+**🌐 Live demo (main branch):** <https://swainmade-oss.github.io/playquest/> · tag link format:
+`https://swainmade-oss.github.io/playquest/?park=123&loc=LOC04`
 
 > ⚠️ Playgrounds, coordinates and clues in `js/data/playgrounds.js` are **SAMPLE DATA** (IDs 123, 456, 789).
 
+| Splash | Is this your playground? | Pick an adventure | Find this! | Uh-oh (gentle) | You did it! | Sticker book |
+|---|---|---|---|---|---|---|
+| ![](screenshots/redesign/01-splash.png) | ![](screenshots/redesign/02-park-confirm.png) | ![](screenshots/redesign/03-game-picker.png) | ![](screenshots/redesign/06-game-critters.png) | ![](screenshots/redesign/07-wrong-tap.png) | ![](screenshots/redesign/09-win.png) | ![](screenshots/redesign/15-badge-shelf-full.png) |
+
 ---
 
-## Quick start
+## The kid flow (a few big steps, no forms)
+
+1. **Splash: "Tap to play!"** One giant pulsing ▶. The tap also unlocks sound and speech (phones require a tap first).
+2. **"Where are we playing?"** Pip looks around (geolocation, nearest playground within ~200 m), then asks
+   **"Is this Sunny Meadow Park?"** with a big 👍 and a 🔄 *pick another* button. *Pick another* shows big playground
+   bubbles (tap = hear the name, 👍 = go) and a 🔢 number pad for typing a playground number. No keyboard, no forms.
+3. **Adventure map:** five **islands** on a wavy sea, each with its own shape, color and character
+   (🐰 bush island, ⚡ hexagon power island, ⛰️ mountain island, 🏁 racetrack island, 🃏 card island). Tapping an island
+   slides up a big card. Pip explains the game, and a giant ▶ starts it (or ▶ *keep going* / ↺ for a saved game).
+4. **3 · 2 · 1 · GO!** in the game's colors, with countdown blips and voice.
+5. **Game screen:** dominated by a **giant illustration of WHAT to find** (slide, swings, tunnel…) and a giant
+   **🔊 hear-it-again** button. Pip reads the clue (also shown in his speech bubble for readers). Ten stars fill up,
+   a 🔥 streak chip appears after 2 in a row, and there's extra sparkle at 3, 5 and 8 in a row.
+6. **Win screen:** the badge drops in and shines, with confetti, stars, a fanfare and a dancing Pip. Then 🔁 / 🗺️ / 📒.
+7. **📒 Sticker book:** the 5 badges per playground. Earned ones are shown in color with the best time, and locked ones are grey "?" silhouettes. Tabs switch playgrounds.
+
+**Wrong taps are never punishing.** Pip does a gentle wobble, there's a soft "uh-oh", a purple 👂 *Try again!* pop,
+an encouraging line, and the clue is repeated.
+
+### The five games
+
+| Game (island) | Badge | Rule | What it looks like |
+|---|---|---|---|
+| 🐰 **Rescue the Playground Critters** (green bush) | Critter Rescuer | Explore, fixed order of 10 | Giant spot picture with a bush peeking in the corner. Each correct tag pops out the rescued critter (🐰🐿️🐢…) into the rescue row. |
+| ⚡ **Power Outage** (night theme) | Power Restorer | Timed, **30 s per step**, step resets | Big **battery that drains** (green → yellow → red, shaking), clock ticks in the last 10 s, "Hurry!" at 10 s. If it runs out there's a blackout flicker and a power-down sound, and **that step restarts** (no advance). Light bulbs light up per station. |
+| ⛰️ **High and Low Challenge** (sky blue) | High and Low Master | Sequence, **exact order** | Sky scene for HIGH (▲ red banner) or ground scene for LOW (▼). The ▲▼ sequence row shows progress. **Out-of-order taps don't count.** |
+| 🏁 **The Great Playground Loop** (coral) | Loop Champion | Flow, continuous lap | A **racetrack** with 10 numbered stops, a runner and a yellow progress lane. "🌊 Flowing!" turns into "⚠️ Keep moving!" (plus voice) after 45 s at one stop. |
+| 🃏 **Memory Mode** (purple) | Memory Master | Memory, hidden numbers 1–10 | Big "Find **3**" card plus a **card board** of the 10 spots. **A wrong tag flips its card and reveals its number** (spoken: "Ooh! This one is number seven. Remember it!"). |
+
+### Grown-ups area (behind a parent gate)
+
+The small 🔒 on the map opens a multiplication question on a keypad. Inside:
+* Settings: sound effects, **music**, voice, **natural recorded voice vs device voice**, pocket mode, **test controls**, tag base URL, ▶ test voice.
+* **Reset** per playground; "Use my location for this playground" (to try the nearest-playground feature).
+* The **one shared set of ten tag links** (see below), printable, with 📋 Copy / ✍️ Write (Android) / ▶ Test.
+
+**Test controls:** when enabled (default on for the demo), games show a small dashed **🧪** button. It opens a panel
+with ✅ *Correct tap*, ❌ *Wrong tap* and LOC01–LOC10, so the whole flow can be played without walking to a tag.
+
+**Pocket mode** (👀/🙈 in the game header) hides the picture and all text (a big 👂 and the step count stay). Pip keeps talking.
+
+---
+
+## Audio
+
+### Sound effects + music: synthesized with Web Audio (`js/core/audio.js`)
+
+No sound files are needed. There's a small mixing graph: `sfx` bus, `music` bus with a **ducking** gain, `voice` bus, a synthetic
+room reverb, and a master compressor so nothing clips on phone speakers. The 20 designed effects include:
+
+| | |
+|---|---|
+| `tap` / `pop` | soft bubble pop for every button |
+| `select` / `back` | two-note marimba up / down |
+| `correct` | marimba hit + rising glockenspiel chime (additive bell partials 1 / 2.76 / 5.4 + reverb) |
+| `star` / `sparkle` / `streak` | pentatonic bell arpeggios |
+| `uhoh` | a soft cartoon "uh-oh": two filtered triangle-wave notes with vibrato, sliding down (never harsh) |
+| `boing` / `whoosh` / `flip` | spring sweep with vibrato, filtered-noise sweep, card-flip click |
+| `count` / `go` | countdown blips and a bright chord + whoosh for GO |
+| `tick` / `tock` | woodblock clock for the last 10 s of Power Outage |
+| `powerdown` / `powerup` | gentle descending "wooo" + flicker, and a rising zap + chime |
+| `fanfare` / `tada` | brass-like chords with filter swells, timpani and a bell shower for the badge |
+
+**Background music** is a light procedural 8-bar loop (100 BPM, C–Am–F–G, marimba melody, soft pad, round bass,
+shaker). It's quieter and sparser during games and **ducks to ~30 % whenever Pip talks**. Toggle it with 🎵 on the map
+(or in Grown-ups). Audio is suspended when the app goes to the background.
+
+`node tools/render-sfx.mjs` renders every effect and 12 s of music offline to WAV (in `/tmp/playquest-sfx` by default) and prints peak/RMS levels, so you can listen and check them.
+
+### Pip's voice: pre-recorded natural clips + speech-synthesis fallback (`js/core/voice.js`)
+
+* **273 clips** cover *every* line the app can say: all fixed narration, every clue for every playground and game,
+  every reaction, Memory numbers, playground and spot names. They were generated offline with **Piper TTS** using
+  the **en_US-kristin-medium** voice (public-domain LibriVox training data, see `audio/voice/LICENSE.md`).
+  Format: mono 22.05 kHz 32 kbps MP3, loudness-normalized to −16 LUFS, with a gentle presence EQ and trimmed silence.
+  That's about **12 minutes of speech in ~2.8 MB**. Clips are fetched on demand, and then all of them are warmed into the offline cache in the background.
+* Each line maps to its clip by a hash of its normalized text (`js/core/textkey.js`), so any line **without** a clip
+  (e.g. a new playground you just added) automatically falls back to **speechSynthesis**.
+* The fallback picks the best English voice available: names with *Natural / Neural / Enhanced / Premium*, *Google US English*,
+  *Samantha*, *Ava*, *Allison*, *Aria*, *Jenny*… are preferred, and novelty voices are filtered out. It uses rate 0.95 and pitch 1.1.
+* Utterances are **queued and never overlap**. Every navigation cancels speech. iOS is unlocked inside the first tap. Pip's
+  mouth animates and the music ducks while he talks.
+
+**Re-recording after changing text:**
+
+```bash
+python3 -m venv .venv-tts && .venv-tts/bin/pip install piper-tts faster-whisper
+curl -L -O https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/kristin/medium/en_US-kristin-medium.onnx
+curl -L -O https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/kristin/medium/en_US-kristin-medium.onnx.json
+node tools/voice-lines.mjs                                    # lists every line → tools/voice-lines.json
+.venv-tts/bin/python tools/make-voice.py --model ./en_US-kristin-medium.onnx --qa
+```
+
+Unchanged lines are skipped, and stale clips are removed. With `--qa`, each clip is transcribed with Whisper and re-synthesized
+(up to 4 takes) if it doesn't match the text. This catches Piper's occasional swallowed first consonant.
+
+---
+
+## NFC tags: one shared set of ten chips (demo)
+
+**Format (unchanged, so chips that are already written keep working):**
+
+```
+https://swainmade-oss.github.io/playquest/?park=123&loc=LOC01   …   &loc=LOC10
+```
+
+**Demo rule: every playground uses the same ten physical chips.** A tap counts for **the playground the kid has
+selected in the app (or that Pip found by location)**. The `park=123` on the chip is only a **hint**, used when nothing has been
+selected on that phone yet. Progress, badges and best times are still **separate per playground**. The Grown-ups page and
+its print view show this one set of 10 links, plus which spot each LOC is at each sample playground.
+(`SHARED_TAG_PARK_ID` in `js/data/playgrounds.js`.)
+
+> 🔜 **Later:** each playground gets its **own** set of tags (`?park=<its id>&loc=…`), and the tag's park becomes authoritative.
+> The link format already carries the park ID, so only the routing rule in `app.parkForTap()` changes.
+
+**What happens on a tap** (all paths go through `app.handleTap()`):
+
+| Situation | Result |
+|---|---|
+| A game is in progress for the selected playground | The tap **counts** (correct / wrong) for that game. |
+| iPhone opens the link cold (new page, no tap yet) | The tap is **counted immediately on load** (saved even if nobody taps the splash). After *Tap to play* the game shows the result with sound + voice. |
+| No game in progress | Straight to the **adventure map** of the selected playground ("You found a tag! Now pick an adventure!"). |
+| Brand-new phone, nothing selected yet | "Is this your playground?": location if available, otherwise the tag's park as the suggestion, then the map. |
+| Android Chrome with the app open | **Web NFC** reads the tag in-page (enable once via the 📡 chip). |
+
+Writing tags: 10 NTAG213/215 stickers labelled LOC01–LOC10, write each link with **NFC Tools** (Write → URL), or use ✍️ on Android
+Chrome. **Don't mount directly on metal** (it blocks the read). Use wood/plastic, a spacer, or on-metal tags, at kid height.
+
+---
+
+## Quick start, checks, screenshots
 
 ```bash
 cd playground-app
-python3 -m http.server 8080          # or: npx serve .
-# open http://localhost:8080 (phone-size view in DevTools)
+python3 -m http.server 8080          # open http://localhost:8080 (phone-size view in DevTools)
+npm install                          # playwright-core only; uses your installed Chrome
+npm run screenshots                  # full play-through + checks → screenshots/redesign/*.png + tag-links-print.pdf
+npm run video                        # same, plus screenshots/redesign/playthrough.webm
+npm run art                          # all illustrations → screenshots/redesign/art-sheet.png
 ```
 
-Every game screen has the **🧪 Test controls**: *Simulate Correct Tap* and *Simulate Wrong Tap*, plus
-buttons for LOC01–LOC10. You can play the whole flow without walking to a tag.
+`npm run screenshots` (390×844, headless Chromium) plays **all five games** with the test controls. It checks the rules
+(wrong taps don't advance, the Power Outage reset, High & Low order, Memory hints), resume after reload, badges + best times,
+separate progress per park, the shared-chip routing (a `park=123` chip counting for the selected #456 park, the cold link on load,
+an in-game tag tap, a link with no game → map, a brand-new phone with location off), the one shared tag table with the exact
+`https://swainmade-oss.github.io/playquest/?park=123&loc=LOCxx` links, reset, that all 20 effects + music run, that **every spoken line
+came from a recorded clip**, and **no console errors**.
 
-On a real phone you need **HTTPS** (Web NFC, geolocation and PWA install all require it). Use GitHub Pages,
-Netlify or Cloudflare Pages, or a tunnel (`cloudflared tunnel --url http://localhost:8080`).
+**Screenshots** (`screenshots/redesign/`): 01-splash, 02-park-confirm, 02b-park-pick, 03-game-picker, 04-game-card,
+05-countdown, 06-game-critters, 07-wrong-tap, 08-pocket-mode, 09-win, 10-badge-shelf-1, 11-game-power-outage,
+12-game-high-low, 13-game-loop, 14-memory-wrong-tap-hint, 14b-game-memory, 15-badge-shelf-full, 16-tag-link-splash,
+17-tag-link-to-picker, 18-parent-gate, 19-grown-ups-tags, 20-grown-ups-settings, tag-links-print.pdf, art-sheet.png.
+(`playthrough.webm` from `npm run video` is not committed. It's about 4 MB.)
 
-**Hosting from a subpath (GitHub Pages).** The live demo is published from the `main` branch root of
-[swainmade-oss/playquest](https://github.com/swainmade-oss/playquest) to `https://swainmade-oss.github.io/playquest/`.
-All asset paths, the manifest `start_url`/`scope` (`./`) and the service worker (registered as `./sw.js`, so its
-scope is `/playquest/`) are relative, so the app works under any subpath without changes. Tag links are built from
-the page's own address, so on the live site they come out as `https://swainmade-oss.github.io/playquest/?park=123&loc=LOC04`.
-`.nojekyll` turns off Jekyll processing. To test a subpath locally:
-
-```bash
-mkdir -p /tmp/srv && ln -s "$PWD" /tmp/srv/playquest && (cd /tmp/srv && python3 -m http.server 8090)
-# open http://localhost:8090/playquest/
-```
-
-**Automated check and screenshots:** `npm install` (installs playwright-core only and uses the Chrome you have)
-and then `npm run screenshots` while the server runs. It plays all five games, tests the tag-link, resume,
-reset and location-denied flows, and writes 390×844 PNGs plus `tag-links-print.pdf` to `screenshots/`.
-Set `TAG_BASE_URL=https://swainmade-oss.github.io/playquest/` so the tag table and PDF show the live links
-(and `BASE_URL=http://localhost:8090/playquest/` to run against a local subpath).
-
----
-
-## Spec → implementation map
-
-| Spec item | Where / how |
-|---|---|
-| **Start screen**: choose playground ID + game, press start | `js/screens/start.js`. The nearest playground is auto-selected by geolocation (≤ 200 m), the list is sorted by distance, there's a "Playground ID" box, and the five games show 🏅 badge status and best time. A **Continue** card appears when a game is in progress. Big **START ▶**. |
-| **Game screen**: name, step X of 10, elapsed time, Play Clue, Pocket Mode | `js/screens/play.js`. Header shows the name and a 👀/🙈 **Pocket** toggle, with a "Step X of 10" pill, a ⏱️ elapsed clock and a progress bar. There's a game-specific visual, the clue card and a big **🔊 Play Clue** button. |
-| **Pocket Mode** hides on-screen text | Replaces the visual and clue with a dark "🙈 Pocket Mode 5/10" card. Clues are still spoken, and the setting is remembered. |
-| **Badge screen** after 10th correct tap: badge + total time, Play Again / Back to Start | Overlay in `play.js` with a medal, badge name, total time, best-time note and the two buttons. |
-| **Test controls**: simulate correct / wrong tap | `play.js` → `testPanel()`. They can be hidden in Grown-ups settings. |
-| Read location code from a tag | `js/core/nfc.js`: tag link `?park=123&loc=LOC04` (page load) plus Web NFC `NDEFReader` (Android Chrome). |
-| Match tap against expected next step | Each game's `expected()` / `tap()` in `js/games/`. |
-| Speak clue with TTS | `js/core/sound.js` → `say()` (Web Speech API). Runs on start, after each correct tap and on **Play Clue**. |
-| Success sound + short vibration / error sound + vibration | `sfx('good')` with `buzz(60)`, and `sfx('bad')` with `buzz([80,60,80])`. Sounds are synthesized with Web Audio, so there are no audio files. |
-| Track step, elapsed time, won | Game state `{ step, startedAt, … }`. The win is recorded in `store.recordWin()`. |
-| One badge status per game per playground, best time per game | `store.data.progress[parkId].games[gameId] = { won, bestMs, plays }` |
-| Save and reload progress if the app is closed | Active game saved after every tap (`progress[parkId].active`). Reopening the app, or opening any tag link, resumes it. |
-| Reset progress for a playground | Grown-ups page → **🗑️ Reset this playground**. |
-| Per playground: ID + ten location codes | `js/data/playgrounds.js` |
-| No personal data, nothing sent to a server | Only `localStorage`. There are no network calls except loading the app itself. |
-
-### The five games (all use the same ten tags)
-
-| Game | Badge | Rule | Time limit | How it plays in the app |
-|---|---|---|---|---|
-| 🐰 **Rescue the Playground Critters** | 🐾 Critter Rescuer | Explore | None | Fixed order of 10 steps. Each correct tag "rescues" a critter (🐰🐿️🐢…), which fills the rescue slots, and the next clue says where the next critter hides. |
-| 🔌 **Power Outage** | ⚡ Power Restorer | Timed | 30 s per step | Fixed order. A 30-second bar counts down for each step. If it runs out, the power goes out and **the step resets**: the timer restarts and the clue repeats, but you don't advance. Light bulbs show restored stations. |
-| ↕️ **High and Low Challenge** | ⛰️ High and Low Master | Sequence | None | Exact fixed order. The clues alternate HIGH and LOW spots, shown with a big ⬆️ HIGH or ⬇️ LOW. **Out-of-order taps don't count.** |
-| 🔄 **The Great Playground Loop** | 🏅 Loop Champion | Flow | None | Fixed order around the playground. A ring shows the lap. A flow meter nudges "⚠️ Keep moving!" after 45 s without a tag, and the badge screen says "Non-stop loop!" if you never stopped that long. |
-| 🃏 **Memory Mode** | 🧠 Memory Master | Memory | None | At the start each tag secretly gets a number from 1 to 10 (shuffled). Find them in order 1 → 10. **A wrong tag reveals its number** (spoken, and shown on the memory board) as a hint for later. |
+Hosting from a subpath works unchanged (relative paths, `./sw.js` scope). Bump `CACHE` in `sw.js` when deploying changes.
 
 ---
 
 ## Architecture
 
 ```
-index.html  manifest.webmanifest  sw.js (offline cache — bump CACHE on changes)
-.nojekyll                   tells GitHub Pages to serve files as-is
-css/app.css                 all styles (kid UI, game visuals, print layout)
-fonts/Fredoka.ttf  icons/   rounded font (OFL) and app icons
-js/app.js                   bootstrap, tiny router, the single tap entry point app.handleTap()
-js/core/nfc.js              tag link format/parse, Web NFC scan and write
-js/core/geo.js              geolocation, distance, nearest playground (≤ 200 m)
-js/core/store.js            localStorage: settings, per-playground progress, active game
-js/core/sound.js            synthesized sounds and text-to-speech
-js/core/icons.js, util.js   emoji/SVG icons; toast, confetti, vibration, time format
-js/data/playgrounds.js      ★ playgrounds, LOC01–LOC10 spots, game orders and clues (edit here)
-js/games/index.js           game registry + documented game API
-js/games/fixed-order.js     shared engine for the 4 fixed-order games
-js/games/critters.js  power-outage.js  high-low.js  great-loop.js  memory.js
-js/screens/start.js         Start screen
-js/screens/play.js          Game screen host + badge screen + test controls
-js/screens/parent.js        Grown-ups: settings, reset, tag setup, printable tag links
-tools/                      Playwright smoke test/screenshots, icon renderer
+index.html  manifest.webmanifest  sw.js        offline shell cache (bump CACHE on changes)
+css/app.css                                    the whole look: themes, Pip animations, game views, print
+fonts/Fredoka.woff2 (+OFL.txt)                 rounded chunky font, Latin subset (SIL OFL 1.1)
+audio/voice/*.mp3 manifest.json LICENSE.md     Pip's pre-recorded voice
+js/app.js                 router + the single tap entry point app.handleTap() / cold tag links
+js/core/audio.js          Web Audio engine: buses, ducking, 20 synthesized SFX, procedural music
+js/core/voice.js          voice queue: recorded clips → speechSynthesis fallback, best-voice picker
+js/core/textkey.js        text → clip hash (shared with tools)
+js/core/session.js        apply tap / tick, streaks, save, record wins (no DOM)
+js/core/store.js          localStorage: settings, per-playground progress + active game
+js/core/nfc.js geo.js     tag link parse + Web NFC; geolocation + nearest playground
+js/data/playgrounds.js    ★ playgrounds, LOC01–LOC10 spots (+ `art`), game orders and clues
+js/data/narration.js      ★ every fixed line Pip says
+js/games/*.js             the five games as pure rule objects (+ theme colors)
+js/ui/art.js              SVG illustrations: 27 playground spots, 5 game characters, badges, floating shapes
+js/ui/mascot.js           Pip (SVG) + moods (bounce, blink, talk, cheer, sad, think) + talk()
+js/ui/views.js            per-game "find this" views (battery, racetrack, card board, …)
+js/ui/fx.js               canvas confetti, sparkles, flying stars, haptics
+js/screens/               splash, park, map, countdown, play, win, shelf, parent
+tools/                    screenshots/e2e, voice-lines + make-voice (Piper), render-sfx, art preview, icons
 ```
 
-**One tap pipeline.** A Web NFC read, a tag link opening the page, and the test buttons all call
-`app.handleTap({ parkId, loc })`. In a game, the game screen checks the tap against the expected step.
-Outside a game, the tap resumes that playground's saved game if there is one. Otherwise it selects the
-playground on the Start screen.
+**Adding a playground:** add it to `js/data/playgrounds.js` (10 spots with `name`, `hint`, `level`, `art`, plus 4 orders;
+clues are optional and come from templates). It works immediately with the device voice, and `npm run voice` records clips for it.
 
-**Games are small rule objects.** The host (`play.js`) handles sounds, vibration, speech, saving, timers
-and the badge screen. A game supplies `start / expected / clue / view / tap` and optionally `tick / live`
-(see `js/games/index.js`). State is plain JSON saved after every tap. Timers use timestamps, so they
-keep running correctly across reloads.
+## Limitations
 
-### Editing clues and adding playgrounds
-
-Everything lives in **`js/data/playgrounds.js`**:
-
-```js
-{
-  id: '123', name: 'Sunny Meadow Park', icon: '🌻', color: '#FFC83D', lat: 41.88, lng: -87.62,
-  locations: { LOC01: { name: 'Front Gate', icon: '🚪', hint: 'the front gate', level: 'low' }, … LOC10 },
-  games: {
-    critters: [ { loc: 'LOC02', clue: 'A little bunny is hiding where kids zoom down fast. Head to the tallest slide!' }, … 10 ],
-    power:    [ … 10 ], highlow: [ … 10 ], loop: [ … 10 ],
-  },
-}
-```
-
-* Each step's `clue` leads the player to that step's `loc`. It's spoken when the step starts.
-* **If you leave out `clue`,** the game builds one from the location's `hint` (e.g. *"Turtle is hiding near the spinner. Go find it!"*).
-  Playground 123 has every clue hand-written. 456 and 789 use the templates, so a new playground only needs its 10 spots and 4 orders.
-* Memory Mode needs no data (the numbers are shuffled at game start).
-* For testing geolocation, the Grown-ups page has **"Use my location for this playground"**. It moves a sample playground to where you're standing, stored on that device only.
-
----
-
-## NFC tags
-
-**Format:** one URL record per tag, with the playground ID and the tag's location code:
-
-```
-https://<your-host>/<path>/?park=123&loc=LOC04
-```
-
-For the live demo that is **`https://swainmade-oss.github.io/playquest/?park=123&loc=LOC04`**.
-
-The game is chosen in the app, so **the same ten tags work for all five games**. (`#park=123&loc=LOC04` is also accepted.)
-
-**Printable tag link list:** open 👪 **Grown-ups** (answer the grown-up question), then use **📋 Tag links**
-and **🖨️ Print table**. It gives one table per playground (LOC01–LOC10, the spot, and the link), with Copy,
-▶ Test, and ✍️ Write (Android Chrome) buttons. Links default to the address the app is running from (on the live site: `https://swainmade-oss.github.io/playquest/`).
-Set **Tag base URL** first if the tags should point somewhere else.
-`screenshots/tag-links-print.pdf` is the printed list with the live GitHub Pages links for the three sample playgrounds.
-
-**Writing the tags:**
-1. Get 10 NTAG213/NTAG215 stickers per playground and label them **LOC01–LOC10**.
-2. In the free **NFC Tools** app (iPhone or Android), go to **Write → Add a record → URL/URI**, paste the tag's link, press **Write**, and hold the phone on the sticker.
-   On Android Chrome you can press **✍️ Write** in PlayQuest instead.
-3. Test each tag, then optionally **lock** it in NFC Tools.
-4. **Mounting:** **avoid mounting tags directly on metal, because metal blocks the read.** Use wood or plastic posts, a plastic spacer, or "on-metal" tags.
-   Put them at kid height, away from pinch points and slide exits, with a small "📱 tap here" label. Use weatherproof tags or covers outdoors.
-
-### How a tap reaches the app
-
-| | App open | App closed |
-|---|---|---|
-| **Android + Chrome** | After **📡 Turn on tag reader** once (permission prompt), **Web NFC** reads the tag inside the page. It starts automatically on later visits. | Android opens the tag link in Chrome (or in the installed PWA). The saved game resumes and the tap counts. |
-| **iPhone (XS or newer)** | **iOS Safari has no Web NFC.** Background tag reading shows a banner, and tapping it opens the link. The game resumes and the tap counts. | Same. |
-| **Testing** | 🧪 Simulate Correct / Wrong Tap, or LOC buttons. | – |
-
-### Limitations
-
-* **iPhone:** there's no Web NFC, so every tap is a banner tap plus a page load (fast with the offline cache).
-  **Home Screen web apps on iOS have storage that is separate from Safari, and tag links open in Safari.**
-  For the demo on iPhone, play in Safari rather than the Home Screen icon. A native wrapper fixes this.
-* **iOS has no vibration API**, so iPhones get sound only. Browsers also block vibration until the user has touched the page once.
-* Text-to-speech voices vary by device. The first sound needs a user tap (autoplay rules). Pressing START counts.
-* Web NFC needs HTTPS, Chrome on Android, and the screen on with the page in the foreground.
-* Tag links can be typed by hand, so there's no anti-cheat in this demo.
-* Sample coordinates are made up, so use "Use my location for this playground" to try the 200 m suggestion.
-
----
-
-## Next steps
-
-1. **Native wrapper for direct NFC.** Wrap the app with **Capacitor** and add an NFC plugin (Core NFC on iOS, Android NFC)
-   so both platforms read the chip in-app. There'd be no banner and no reload, and one storage for everything. Add Universal Links / App Links so
-   tag links open the native app. The game code stays the same: call `app.handleTap()` from the plugin callback.
-2. **Recorded voice clips as a fallback to TTS.** Add an optional `audio: 'clips/123/critters-01.mp3'` per step and play it
-   in `say()` when present, falling back to speech synthesis. Precache the clips in the service worker.
-3. **Accounts and cloud sync (later).** Family account with kid profiles and badges synced between devices.
-   Design for COPPA compliance, keep it opt-in, and keep the local-only mode.
-4. **Backend / admin.** Playground catalog and clue editor, tag provisioning, signed tag links (HMAC) or tag UID checks
-   against cheating, and anonymous usage analytics.
-5. **More play.** Difficulty levels (longer timers for younger kids), sibling turn-taking, seasonal clue packs, more languages,
-   and a QR code fallback on the same link.
+* **iPhone:** no Web NFC, so every tag tap is a banner tap plus a page load, and phones need one tap on the splash before sound plays.
+  (The tap itself is already counted.) Home Screen web apps on iOS have storage separate from Safari, so play in Safari for the demo.
+  iOS has no vibration API.
+* Sound design is synthesized and was checked by rendering and level analysis (no listening test on real phones yet). The music is deliberately soft.
+* The recorded voice is a neural TTS (Piper "kristin"). It sounds natural but isn't a voice actor. Lines without clips use the device voice.
+* The demo's shared chips can't tell playgrounds apart by themselves (by design for now). The selected playground decides.
+* Sample coordinates are made up. Use "Use my location for this playground" in Grown-ups to try the 200 m suggestion.

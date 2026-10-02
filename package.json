@@ -1,13 +1,18 @@
 {
   "name": "playquest",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "PlayQuest: playground NFC quest games PWA (prototype)",
+  "description": "PlayQuest: playground NFC quest games for kids (PWA prototype)",
   "type": "module",
   "scripts": {
     "serve": "python3 -m http.server 8080",
-    "icons": "node tools/make-icons.mjs",
-    "screenshots": "node tools/screenshots.mjs"
+    "screenshots": "node tools/screenshots.mjs",
+    "video": "VIDEO=1 node tools/screenshots.mjs",
+    "voice:lines": "node tools/voice-lines.mjs",
+    "voice": "node tools/voice-lines.mjs && .venv-tts/bin/python tools/make-voice.py --qa",
+    "sfx": "node tools/render-sfx.mjs",
+    "art": "node tools/art-preview.mjs",
+    "icons": "node tools/make-icons.mjs"
   },
   "devDependencies": {
     "playwright-core": "^1.50.0"

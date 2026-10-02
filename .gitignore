@@ -22,3 +22,11 @@ desktop.ini
 # Env / local
 .env
 .env.*
+
+# Local TTS tooling
+.venv-tts/
+*.onnx
+*.onnx.json
+audio/voice/.*.mp3
+screenshots/redesign/video-tmp/
+screenshots/redesign/playthrough.webm

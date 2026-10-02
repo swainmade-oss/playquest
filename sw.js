@@ -1,18 +1,23 @@
 /**
  * Service worker: offline-first app shell (playgrounds often have bad signal).
  * Bump CACHE when you change files so phones pick up the new version.
+ * Voice clips (audio/voice/*.mp3) are cached as they are fetched; the app warms
+ * them in the background once (js/core/voice.js warmCache) so clues work offline.
  */
-const CACHE = 'playquest-v2';
+const CACHE = 'playquest-v3-redesign';
 const SHELL = [
-  './', 'index.html', 'manifest.webmanifest', 'css/app.css', 'fonts/Fredoka.ttf',
+  './', 'index.html', 'manifest.webmanifest', 'css/app.css', 'fonts/Fredoka.woff2',
   'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png',
+  'audio/voice/manifest.json',
   'js/app.js',
-  'js/core/geo.js', 'js/core/icons.js', 'js/core/nfc.js', 'js/core/sound.js',
-  'js/core/store.js', 'js/core/util.js',
-  'js/data/playgrounds.js',
+  'js/core/audio.js', 'js/core/voice.js', 'js/core/textkey.js', 'js/core/session.js',
+  'js/core/geo.js', 'js/core/nfc.js', 'js/core/store.js', 'js/core/util.js',
+  'js/data/playgrounds.js', 'js/data/narration.js',
   'js/games/index.js', 'js/games/fixed-order.js', 'js/games/critters.js',
   'js/games/power-outage.js', 'js/games/high-low.js', 'js/games/great-loop.js', 'js/games/memory.js',
-  'js/screens/start.js', 'js/screens/play.js', 'js/screens/parent.js',
+  'js/ui/art.js', 'js/ui/mascot.js', 'js/ui/fx.js', 'js/ui/views.js',
+  'js/screens/splash.js', 'js/screens/park.js', 'js/screens/map.js', 'js/screens/countdown.js',
+  'js/screens/play.js', 'js/screens/win.js', 'js/screens/shelf.js', 'js/screens/parent.js',
 ];
 
 self.addEventListener('install', (e) => {
@@ -28,7 +33,7 @@ self.addEventListener('activate', (e) => {
 });
 
 // Stale-while-revalidate for same-origin GETs. Navigations (incl. tag links
-// like /?park=123&loc=LOC04) fall back to the cached index.html when offline.
+// like /playquest/?park=123&loc=LOC04) fall back to the cached index.html offline.
 self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET' || new URL(req.url).origin !== location.origin) return;

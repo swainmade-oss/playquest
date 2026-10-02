@@ -1,0 +1,1367 @@
+[
+ {
+  "hash": "edc09ee6",
+  "text": "Yay! Let’s play!",
+  "why": "hello"
+ },
+ {
+  "hash": "8e57d0af",
+  "text": "Welcome back! Let’s keep going!",
+  "why": "welcomeBack"
+ },
+ {
+  "hash": "61ea4b60",
+  "text": "Where are we playing? Let me look!",
+  "why": "where"
+ },
+ {
+  "hash": "9c7aaf59",
+  "text": "Which playground are we at? Tap one!",
+  "why": "pickPark"
+ },
+ {
+  "hash": "78b64f44",
+  "text": "Type the playground number.",
+  "why": "typeNumber"
+ },
+ {
+  "hash": "264f847c",
+  "text": "Hmm, I don’t know that one. Try again!",
+  "why": "unknownNumber"
+ },
+ {
+  "hash": "5bfb8ff3",
+  "text": "Pick an adventure!",
+  "why": "pickAdventure"
+ },
+ {
+  "hash": "8b6ab563",
+  "text": "You found a tag! Now pick an adventure!",
+  "why": "tagHello"
+ },
+ {
+  "hash": "c1905c2e",
+  "text": "Tap the big play button to start!",
+  "why": "tapGo"
+ },
+ {
+  "hash": "01bef114",
+  "text": "Tap play to keep going!",
+  "why": "keepGoing"
+ },
+ {
+  "hash": "660ec0f4",
+  "text": "Ready?",
+  "why": "ready"
+ },
+ {
+  "hash": "888603c3",
+  "text": "Three!",
+  "why": "count"
+ },
+ {
+  "hash": "be248829",
+  "text": "Two!",
+  "why": "count"
+ },
+ {
+  "hash": "ba2719ef",
+  "text": "One!",
+  "why": "count"
+ },
+ {
+  "hash": "4220774b",
+  "text": "Go!",
+  "why": "count"
+ },
+ {
+  "hash": "df2bf5aa",
+  "text": "Oops! Not this one. You can do it!",
+  "why": "wrong"
+ },
+ {
+  "hash": "e72a736c",
+  "text": "Hmm, not quite! Try another spot!",
+  "why": "wrong"
+ },
+ {
+  "hash": "cb70cb32",
+  "text": "So close! Let’s listen again.",
+  "why": "wrong"
+ },
+ {
+  "hash": "b31267e8",
+  "text": "Three in a row! You’re on fire!",
+  "why": "streak"
+ },
+ {
+  "hash": "a41a56d8",
+  "text": "Five in a row! Super star!",
+  "why": "streak"
+ },
+ {
+  "hash": "5f4202a3",
+  "text": "Eight in a row! Wow wow wow!",
+  "why": "streak"
+ },
+ {
+  "hash": "9cfc7844",
+  "text": "Hurry! Ten seconds left!",
+  "why": "hurry"
+ },
+ {
+  "hash": "d2cc4047",
+  "text": "Keep moving! Don’t stop!",
+  "why": "nudge"
+ },
+ {
+  "hash": "73e3beb5",
+  "text": "That’s your best time ever!",
+  "why": "newBest"
+ },
+ {
+  "hash": "140dc95a",
+  "text": "Want to play again?",
+  "why": "again"
+ },
+ {
+  "hash": "5ae6ed59",
+  "text": "Here are your stickers! Play every adventure to collect them all!",
+  "why": "shelf"
+ },
+ {
+  "hash": "0b43d80d",
+  "text": "You collected every sticker! You’re a PlayQuest champion!",
+  "why": "allBadges"
+ },
+ {
+  "hash": "016364cf",
+  "text": "Pocket mode! Put the phone away and listen for my clues.",
+  "why": "pocketOn"
+ },
+ {
+  "hash": "52521df3",
+  "text": "Pocket mode off!",
+  "why": "pocketOff"
+ },
+ {
+  "hash": "ef68cee1",
+  "text": "That part is for grown-ups!",
+  "why": "grownups"
+ },
+ {
+  "hash": "0a66bd6e",
+  "text": "Oops! Ask a grown-up for help.",
+  "why": "gateWrong"
+ },
+ {
+  "hash": "08c12fdd",
+  "text": "Hmm, I don’t know that tag.",
+  "why": "unknownTag"
+ },
+ {
+  "hash": "dd17f1cc",
+  "text": "Hi! I’m Pip, your PlayQuest guide!",
+  "why": "voiceTest"
+ },
+ {
+  "hash": "44c33625",
+  "text": "Music on!",
+  "why": "musicOn"
+ },
+ {
+  "hash": "423d0b53",
+  "text": "Is this Sunny Meadow Park?",
+  "why": "isThis"
+ },
+ {
+  "hash": "b402ab5b",
+  "text": "Sunny Meadow Park! Hooray!",
+  "why": "yesPark"
+ },
+ {
+  "hash": "4ec0b62b",
+  "text": "Sunny Meadow Park.",
+  "why": "parkName"
+ },
+ {
+  "hash": "fff4843f",
+  "text": "Front Gate!",
+  "why": "spotName"
+ },
+ {
+  "hash": "a4e2f27c",
+  "text": "Big Slide!",
+  "why": "spotName"
+ },
+ {
+  "hash": "0414724e",
+  "text": "Swings!",
+  "why": "spotName"
+ },
+ {
+  "hash": "07fa02ca",
+  "text": "Monkey Bars!",
+  "why": "spotName"
+ },
+ {
+  "hash": "030e8d7a",
+  "text": "Climbing Wall!",
+  "why": "spotName"
+ },
+ {
+  "hash": "da1fd924",
+  "text": "Sandbox!",
+  "why": "spotName"
+ },
+ {
+  "hash": "8a0e6f1d",
+  "text": "Seesaw!",
+  "why": "spotName"
+ },
+ {
+  "hash": "89ba6dba",
+  "text": "Crawl Tunnel!",
+  "why": "spotName"
+ },
+ {
+  "hash": "7b8ceabb",
+  "text": "Lookout Tower!",
+  "why": "spotName"
+ },
+ {
+  "hash": "37ac5b0d",
+  "text": "Picnic Bench!",
+  "why": "spotName"
+ },
+ {
+  "hash": "ad9612d7",
+  "text": "Is this Rocket Ridge Playground?",
+  "why": "isThis"
+ },
+ {
+  "hash": "38acf6c7",
+  "text": "Rocket Ridge Playground! Hooray!",
+  "why": "yesPark"
+ },
+ {
+  "hash": "b08d931f",
+  "text": "Rocket Ridge Playground.",
+  "why": "parkName"
+ },
+ {
+  "hash": "52444958",
+  "text": "Entrance Sign!",
+  "why": "spotName"
+ },
+ {
+  "hash": "bb31615e",
+  "text": "Tube Slide!",
+  "why": "spotName"
+ },
+ {
+  "hash": "5d056fc6",
+  "text": "Spinner!",
+  "why": "spotName"
+ },
+ {
+  "hash": "63bf57a5",
+  "text": "Climbing Net!",
+  "why": "spotName"
+ },
+ {
+  "hash": "03e8f9e9",
+  "text": "Wobbly Bridge!",
+  "why": "spotName"
+ },
+ {
+  "hash": "01897be5",
+  "text": "Fire Pole!",
+  "why": "spotName"
+ },
+ {
+  "hash": "efa4804d",
+  "text": "Drinking Fountain!",
+  "why": "spotName"
+ },
+ {
+  "hash": "1c3c767c",
+  "text": "Rocket Tower!",
+  "why": "spotName"
+ },
+ {
+  "hash": "626ebeb9",
+  "text": "Bench!",
+  "why": "spotName"
+ },
+ {
+  "hash": "a7833e9c",
+  "text": "Is this Pirate Cove Play Area?",
+  "why": "isThis"
+ },
+ {
+  "hash": "591ef6de",
+  "text": "Pirate Cove Play Area! Hooray!",
+  "why": "yesPark"
+ },
+ {
+  "hash": "aeae3b14",
+  "text": "Pirate Cove Play Area.",
+  "why": "parkName"
+ },
+ {
+  "hash": "2a7cd221",
+  "text": "Dock Gate!",
+  "why": "spotName"
+ },
+ {
+  "hash": "d503e63a",
+  "text": "Pirate Ship!",
+  "why": "spotName"
+ },
+ {
+  "hash": "b683900f",
+  "text": "Rope Ladder!",
+  "why": "spotName"
+ },
+ {
+  "hash": "231165a2",
+  "text": "Twisty Slide!",
+  "why": "spotName"
+ },
+ {
+  "hash": "018ac61b",
+  "text": "Crow's Nest!",
+  "why": "spotName"
+ },
+ {
+  "hash": "d2b65e99",
+  "text": "Treasure Chest!",
+  "why": "spotName"
+ },
+ {
+  "hash": "2705e5fc",
+  "text": "Sand Beach!",
+  "why": "spotName"
+ },
+ {
+  "hash": "c8a903f3",
+  "text": "Palm Bench!",
+  "why": "spotName"
+ },
+ {
+  "hash": "5038c59d",
+  "text": "Rescue the Playground Critters! Ten little critters are hiding. Can you find them all?",
+  "why": "intro"
+ },
+ {
+  "hash": "2aac8afa",
+  "text": "Hooray! You did it! You earned the Critter Rescuer badge!",
+  "why": "win"
+ },
+ {
+  "hash": "375546f3",
+  "text": "Critter Rescuer! You earned this one!",
+  "why": "shelfEarned"
+ },
+ {
+  "hash": "2f715666",
+  "text": "Play Rescue the Playground Critters to win this sticker!",
+  "why": "shelfLocked"
+ },
+ {
+  "hash": "6b117749",
+  "text": "Critter Rescuer!",
+  "why": "badge"
+ },
+ {
+  "hash": "ceb88ba3",
+  "text": "No critter here. Listen to the clue again!",
+  "why": "wrongSay"
+ },
+ {
+  "hash": "9a94d694",
+  "text": "Power Outage! The lights went out! Run to each power station before the battery runs out!",
+  "why": "intro"
+ },
+ {
+  "hash": "b5408381",
+  "text": "Hooray! You did it! You earned the Power Restorer badge!",
+  "why": "win"
+ },
+ {
+  "hash": "b4ccee30",
+  "text": "Power Restorer! You earned this one!",
+  "why": "shelfEarned"
+ },
+ {
+  "hash": "3dcce4cb",
+  "text": "Play Power Outage to win this sticker!",
+  "why": "shelfLocked"
+ },
+ {
+  "hash": "92cad67e",
+  "text": "Power Restorer!",
+  "why": "badge"
+ },
+ {
+  "hash": "5942a6d2",
+  "text": "Wrong power station! Keep going!",
+  "why": "wrongSay"
+ },
+ {
+  "hash": "fc653a85",
+  "text": "High and Low Challenge! Go up high, then down low, in just the right order!",
+  "why": "intro"
+ },
+ {
+  "hash": "4134981f",
+  "text": "Hooray! You did it! You earned the High and Low Master badge!",
+  "why": "win"
+ },
+ {
+  "hash": "4808fafe",
+  "text": "High and Low Master! You earned this one!",
+  "why": "shelfEarned"
+ },
+ {
+  "hash": "bc03e289",
+  "text": "Play High and Low Challenge to win this sticker!",
+  "why": "shelfLocked"
+ },
+ {
+  "hash": "692bdb6c",
+  "text": "High and Low Master!",
+  "why": "badge"
+ },
+ {
+  "hash": "0272a292",
+  "text": "Oops, wrong order! Listen again.",
+  "why": "wrongSay"
+ },
+ {
+  "hash": "379b78dc",
+  "text": "The Great Playground Loop! Zoom around one big lap of the playground. Keep moving, don’t stop!",
+  "why": "intro"
+ },
+ {
+  "hash": "9a25d9b5",
+  "text": "Hooray! You did it! You earned the Loop Champion badge!",
+  "why": "win"
+ },
+ {
+  "hash": "5c13900c",
+  "text": "Loop Champion! You earned this one!",
+  "why": "shelfEarned"
+ },
+ {
+  "hash": "d76d2fea",
+  "text": "Play The Great Playground Loop to win this sticker!",
+  "why": "shelfLocked"
+ },
+ {
+  "hash": "9b5f60aa",
+  "text": "Loop Champion!",
+  "why": "badge"
+ },
+ {
+  "hash": "1b27841f",
+  "text": "Not the next stop. Keep flowing!",
+  "why": "wrongSay"
+ },
+ {
+  "hash": "de8ec4c6",
+  "text": "Memory Mode! Every spot has a secret number. Find them all, from one to ten!",
+  "why": "intro"
+ },
+ {
+  "hash": "d0c6c4c3",
+  "text": "Hooray! You did it! You earned the Memory Master badge!",
+  "why": "win"
+ },
+ {
+  "hash": "529e358a",
+  "text": "Memory Master! You earned this one!",
+  "why": "shelfEarned"
+ },
+ {
+  "hash": "123935eb",
+  "text": "Play Memory Mode to win this sticker!",
+  "why": "shelfLocked"
+ },
+ {
+  "hash": "09b7c138",
+  "text": "Memory Master!",
+  "why": "badge"
+ },
+ {
+  "hash": "350ca8af",
+  "text": "0",
+  "why": "digit"
+ },
+ {
+  "hash": "340ca71c",
+  "text": "1",
+  "why": "digit"
+ },
+ {
+  "hash": "370cabd5",
+  "text": "2",
+  "why": "digit"
+ },
+ {
+  "hash": "360caa42",
+  "text": "3",
+  "why": "digit"
+ },
+ {
+  "hash": "310ca263",
+  "text": "4",
+  "why": "digit"
+ },
+ {
+  "hash": "300ca0d0",
+  "text": "5",
+  "why": "digit"
+ },
+ {
+  "hash": "330ca589",
+  "text": "6",
+  "why": "digit"
+ },
+ {
+  "hash": "320ca3f6",
+  "text": "7",
+  "why": "digit"
+ },
+ {
+  "hash": "3d0cb547",
+  "text": "8",
+  "why": "digit"
+ },
+ {
+  "hash": "3c0cb3b4",
+  "text": "9",
+  "why": "digit"
+ },
+ {
+  "hash": "761c6bee",
+  "text": "A little bunny is hiding where kids zoom down fast. Head to the tallest slide!",
+  "why": "clue:123:critters"
+ },
+ {
+  "hash": "6541e193",
+  "text": "You rescued Bunny!",
+  "why": "correct:123:critters"
+ },
+ {
+  "hash": "c53a4482",
+  "text": "A squirrel is digging for acorns in the sand. Find the sandbox!",
+  "why": "clue:123:critters"
+ },
+ {
+  "hash": "b4d059ca",
+  "text": "You rescued Squirrel!",
+  "why": "correct:123:critters"
+ },
+ {
+  "hash": "f8d2b612",
+  "text": "A turtle wants to fly back and forth. Look by the swings!",
+  "why": "clue:123:critters"
+ },
+ {
+  "hash": "0420cd4b",
+  "text": "You rescued Turtle!",
+  "why": "correct:123:critters"
+ },
+ {
+  "hash": "2e30805d",
+  "text": "A hedgehog loves dark, cozy places. Check the crawl tunnel!",
+  "why": "clue:123:critters"
+ },
+ {
+  "hash": "23e6d110",
+  "text": "You rescued Hedgehog!",
+  "why": "correct:123:critters"
+ },
+ {
+  "hash": "c98da479",
+  "text": "A frog is trying to hop up the bumpy rocks. Go to the climbing wall!",
+  "why": "clue:123:critters"
+ },
+ {
+  "hash": "d4d059c3",
+  "text": "You rescued Frog!",
+  "why": "correct:123:critters"
+ },
+ {
+  "hash": "94e3fd11",
+  "text": "An owl is waiting for a picnic snack. Find the picnic bench!",
+  "why": "clue:123:critters"
+ },
+ {
+  "hash": "73568629",
+  "text": "You rescued Owl!",
+  "why": "correct:123:critters"
+ },
+ {
+  "hash": "1e6db829",
+  "text": "A ladybug is swinging hand over hand. Look under the monkey bars!",
+  "why": "clue:123:critters"
+ },
+ {
+  "hash": "c9c5d021",
+  "text": "You rescued Ladybug!",
+  "why": "correct:123:critters"
+ },
+ {
+  "hash": "a55172e5",
+  "text": "A fox is going up and down, up and down. Find the seesaw!",
+  "why": "clue:123:critters"
+ },
+ {
+  "hash": "38d8cfea",
+  "text": "You rescued Fox!",
+  "why": "correct:123:critters"
+ },
+ {
+  "hash": "bc26a254",
+  "text": "A snail climbed all the way to the top to see far away. Go to the lookout tower!",
+  "why": "clue:123:critters"
+ },
+ {
+  "hash": "3f0126c6",
+  "text": "You rescued Snail!",
+  "why": "correct:123:critters"
+ },
+ {
+  "hash": "50ed9979",
+  "text": "The last critter, a baby chick, is waiting to go home. Head to the front gate!",
+  "why": "clue:123:critters"
+ },
+ {
+  "hash": "2aeabfc7",
+  "text": "You rescued Chick!",
+  "why": "correct:123:critters"
+ },
+ {
+  "hash": "5983dd1c",
+  "text": "Power station one is at the front gate. Go go go!",
+  "why": "clue:123:power"
+ },
+ {
+  "hash": "393b4a3a",
+  "text": "Oh no! The battery ran out. Let’s try that one again!",
+  "why": "tick:power"
+ },
+ {
+  "hash": "a4caf2d4",
+  "text": "Power restored!",
+  "why": "correct:123:power"
+ },
+ {
+  "hash": "467d4116",
+  "text": "Zap! Next power station: the swings!",
+  "why": "clue:123:power"
+ },
+ {
+  "hash": "bb208aec",
+  "text": "Lights flickering! Run to the climbing wall!",
+  "why": "clue:123:power"
+ },
+ {
+  "hash": "33c8666b",
+  "text": "Quick! Power up the seesaw!",
+  "why": "clue:123:power"
+ },
+ {
+  "hash": "6d5ebac7",
+  "text": "Climb high! Power station at the lookout tower!",
+  "why": "clue:123:power"
+ },
+ {
+  "hash": "4a523a49",
+  "text": "Hurry to the tallest slide!",
+  "why": "clue:123:power"
+ },
+ {
+  "hash": "8442c034",
+  "text": "Next: the monkey bars. Fast feet!",
+  "why": "clue:123:power"
+ },
+ {
+  "hash": "230b4023",
+  "text": "Beep beep! Run to the sandbox!",
+  "why": "clue:123:power"
+ },
+ {
+  "hash": "e9b26811",
+  "text": "Almost there! Zoom to the crawl tunnel!",
+  "why": "clue:123:power"
+ },
+ {
+  "hash": "f73e3153",
+  "text": "Last one! Restore the power at the picnic bench!",
+  "why": "clue:123:power"
+ },
+ {
+  "hash": "66f81669",
+  "text": "Go HIGH! Climb to the top of the lookout tower!",
+  "why": "clue:123:highlow"
+ },
+ {
+  "hash": "3f7af55d",
+  "text": "Yes! Right in order!",
+  "why": "correct:123:highlow"
+ },
+ {
+  "hash": "f83facc2",
+  "text": "Now go LOW! Crawl to the tunnel!",
+  "why": "clue:123:highlow"
+ },
+ {
+  "hash": "84cf8912",
+  "text": "HIGH again! Find the climbing wall!",
+  "why": "clue:123:highlow"
+ },
+ {
+  "hash": "75754ef8",
+  "text": "LOW! Get down to the sandbox!",
+  "why": "clue:123:highlow"
+ },
+ {
+  "hash": "a7d633c6",
+  "text": "Reach up HIGH to the monkey bars!",
+  "why": "clue:123:highlow"
+ },
+ {
+  "hash": "276a1b23",
+  "text": "LOW and slow. Go to the picnic bench!",
+  "why": "clue:123:highlow"
+ },
+ {
+  "hash": "27325e4c",
+  "text": "HIGH! Head to the top of the tallest slide!",
+  "why": "clue:123:highlow"
+ },
+ {
+  "hash": "944f2ac1",
+  "text": "LOW! Find the seesaw!",
+  "why": "clue:123:highlow"
+ },
+ {
+  "hash": "ddc00c81",
+  "text": "Swing up HIGH! Go to the swings!",
+  "why": "clue:123:highlow"
+ },
+ {
+  "hash": "f9fe2523",
+  "text": "And finally, LOW. Walk back to the front gate!",
+  "why": "clue:123:highlow"
+ },
+ {
+  "hash": "71f9ea9e",
+  "text": "Start your loop at the front gate. Keep moving the whole way!",
+  "why": "clue:123:loop"
+ },
+ {
+  "hash": "81dcdcdc",
+  "text": "Loop started! Go go go!",
+  "why": "correct:123:loop"
+ },
+ {
+  "hash": "271b0263",
+  "text": "Keep walking! Next stop, the tallest slide.",
+  "why": "clue:123:loop"
+ },
+ {
+  "hash": "7c57360a",
+  "text": "Keep going!",
+  "why": "correct:123:loop"
+ },
+ {
+  "hash": "dc5240b9",
+  "text": "Nice pace! On to the swings.",
+  "why": "clue:123:loop"
+ },
+ {
+  "hash": "454329f3",
+  "text": "Don't stop! The monkey bars are next.",
+  "why": "clue:123:loop"
+ },
+ {
+  "hash": "9b12712c",
+  "text": "Keep it flowing to the climbing wall.",
+  "why": "clue:123:loop"
+ },
+ {
+  "hash": "f26e423d",
+  "text": "Up next, the lookout tower. Keep going!",
+  "why": "clue:123:loop"
+ },
+ {
+  "hash": "aef927e9",
+  "text": "Loop around to the crawl tunnel.",
+  "why": "clue:123:loop"
+ },
+ {
+  "hash": "0e20346e",
+  "text": "Keep moving! The seesaw is next.",
+  "why": "clue:123:loop"
+ },
+ {
+  "hash": "bf0c441a",
+  "text": "Almost around! Walk to the sandbox.",
+  "why": "clue:123:loop"
+ },
+ {
+  "hash": "14ed2857",
+  "text": "Finish the loop at the picnic bench!",
+  "why": "clue:123:loop"
+ },
+ {
+  "hash": "063a5fed",
+  "text": "Find secret number one! Tap any tag to start searching.",
+  "why": "clue:123:memory"
+ },
+ {
+  "hash": "98a89cea",
+  "text": "Ooh! This one is number three. Remember it!",
+  "why": "wrong:memory"
+ },
+ {
+  "hash": "920cb512",
+  "text": "Ooh! This one is number four. Remember it!",
+  "why": "wrong:memory"
+ },
+ {
+  "hash": "74737add",
+  "text": "Ooh! This one is number ten. Remember it!",
+  "why": "wrong:memory"
+ },
+ {
+  "hash": "f7f81ab2",
+  "text": "Ooh! This one is number six. Remember it!",
+  "why": "wrong:memory"
+ },
+ {
+  "hash": "627c3c4a",
+  "text": "Ooh! This one is number five. Remember it!",
+  "why": "wrong:memory"
+ },
+ {
+  "hash": "bff65351",
+  "text": "Ooh! This one is number eight. Remember it!",
+  "why": "wrong:memory"
+ },
+ {
+  "hash": "f27e31bf",
+  "text": "Ooh! This one is number seven. Remember it!",
+  "why": "wrong:memory"
+ },
+ {
+  "hash": "5cb87a54",
+  "text": "Ooh! This one is number two. Remember it!",
+  "why": "wrong:memory"
+ },
+ {
+  "hash": "0f9f7c1a",
+  "text": "Ooh! This one is number nine. Remember it!",
+  "why": "wrong:memory"
+ },
+ {
+  "hash": "f20ed02f",
+  "text": "Yes! That’s number one!",
+  "why": "correct:123:memory"
+ },
+ {
+  "hash": "7123eb01",
+  "text": "Now find secret number two!",
+  "why": "clue:123:memory"
+ },
+ {
+  "hash": "34b1d40d",
+  "text": "You already found that one!",
+  "why": "wrong:memory"
+ },
+ {
+  "hash": "f60aab69",
+  "text": "Yes! That’s number two!",
+  "why": "correct:123:memory"
+ },
+ {
+  "hash": "7f9c63db",
+  "text": "Now find secret number three!",
+  "why": "clue:123:memory"
+ },
+ {
+  "hash": "6a74f703",
+  "text": "Yes! That’s number three!",
+  "why": "correct:123:memory"
+ },
+ {
+  "hash": "447b020d",
+  "text": "Now find secret number four!",
+  "why": "clue:123:memory"
+ },
+ {
+  "hash": "f12d12e5",
+  "text": "Yes! That’s number four!",
+  "why": "correct:123:memory"
+ },
+ {
+  "hash": "a3c51d9d",
+  "text": "Now find secret number five!",
+  "why": "clue:123:memory"
+ },
+ {
+  "hash": "7078f3d5",
+  "text": "Yes! That’s number five!",
+  "why": "correct:123:memory"
+ },
+ {
+  "hash": "7d085b13",
+  "text": "Now find secret number six!",
+  "why": "clue:123:memory"
+ },
+ {
+  "hash": "0217bdeb",
+  "text": "Yes! That’s number six!",
+  "why": "correct:123:memory"
+ },
+ {
+  "hash": "09794316",
+  "text": "Now find secret number seven!",
+  "why": "clue:123:memory"
+ },
+ {
+  "hash": "14f6a43e",
+  "text": "Yes! That’s number seven!",
+  "why": "correct:123:memory"
+ },
+ {
+  "hash": "26cc3438",
+  "text": "Now find secret number eight!",
+  "why": "clue:123:memory"
+ },
+ {
+  "hash": "e0ac8cb0",
+  "text": "Yes! That’s number eight!",
+  "why": "correct:123:memory"
+ },
+ {
+  "hash": "3e7f3bfd",
+  "text": "Now find secret number nine!",
+  "why": "clue:123:memory"
+ },
+ {
+  "hash": "d56f2395",
+  "text": "Yes! That’s number nine!",
+  "why": "correct:123:memory"
+ },
+ {
+  "hash": "500124cc",
+  "text": "Now find secret number ten!",
+  "why": "clue:123:memory"
+ },
+ {
+  "hash": "f4e81794",
+  "text": "Yes! That’s number ten!",
+  "why": "correct:123:memory"
+ },
+ {
+  "hash": "bb811246",
+  "text": "Bunny is hiding near the spinner. Go find it!",
+  "why": "clue:456:critters"
+ },
+ {
+  "hash": "9c3579c0",
+  "text": "Squirrel is hiding near the top of the rocket tower. Go find it!",
+  "why": "clue:456:critters"
+ },
+ {
+  "hash": "3fedbdb6",
+  "text": "Turtle is hiding near the swings. Go find it!",
+  "why": "clue:456:critters"
+ },
+ {
+  "hash": "c8248faf",
+  "text": "Hedgehog is hiding near the tube slide. Go find it!",
+  "why": "clue:456:critters"
+ },
+ {
+  "hash": "b37435fd",
+  "text": "Frog is hiding near the big bench. Go find it!",
+  "why": "clue:456:critters"
+ },
+ {
+  "hash": "83831649",
+  "text": "Owl is hiding near the wobbly bridge. Go find it!",
+  "why": "clue:456:critters"
+ },
+ {
+  "hash": "73391815",
+  "text": "Ladybug is hiding near the drinking fountain. Go find it!",
+  "why": "clue:456:critters"
+ },
+ {
+  "hash": "97e4a0a0",
+  "text": "Fox is hiding near the rope climbing net. Go find it!",
+  "why": "clue:456:critters"
+ },
+ {
+  "hash": "397cf50e",
+  "text": "Snail is hiding near the fire pole. Go find it!",
+  "why": "clue:456:critters"
+ },
+ {
+  "hash": "bb3487dc",
+  "text": "Chick is hiding near the entrance sign. Go find it!",
+  "why": "clue:456:critters"
+ },
+ {
+  "hash": "c38969bd",
+  "text": "Power station 1! Run to the entrance sign!",
+  "why": "clue:456:power"
+ },
+ {
+  "hash": "f1b784b0",
+  "text": "Power station 2! Run to the tube slide!",
+  "why": "clue:456:power"
+ },
+ {
+  "hash": "a4c71ea1",
+  "text": "Power station 3! Run to the spinner!",
+  "why": "clue:456:power"
+ },
+ {
+  "hash": "2f91be0b",
+  "text": "Power station 4! Run to the rope climbing net!",
+  "why": "clue:456:power"
+ },
+ {
+  "hash": "2a71393c",
+  "text": "Power station 5! Run to the wobbly bridge!",
+  "why": "clue:456:power"
+ },
+ {
+  "hash": "25d00abb",
+  "text": "Power station 6! Run to the fire pole!",
+  "why": "clue:456:power"
+ },
+ {
+  "hash": "c9321ab7",
+  "text": "Power station 7! Run to the swings!",
+  "why": "clue:456:power"
+ },
+ {
+  "hash": "db276f69",
+  "text": "Power station 8! Run to the drinking fountain!",
+  "why": "clue:456:power"
+ },
+ {
+  "hash": "a112fe86",
+  "text": "Power station 9! Run to the top of the rocket tower!",
+  "why": "clue:456:power"
+ },
+ {
+  "hash": "c7226bd4",
+  "text": "Power station 10! Run to the big bench!",
+  "why": "clue:456:power"
+ },
+ {
+  "hash": "26eb53f1",
+  "text": "Go HIGH! Head to the top of the rocket tower!",
+  "why": "clue:456:highlow"
+ },
+ {
+  "hash": "2d208da4",
+  "text": "Go LOW! Head to the spinner!",
+  "why": "clue:456:highlow"
+ },
+ {
+  "hash": "d0552449",
+  "text": "Go HIGH! Head to the rope climbing net!",
+  "why": "clue:456:highlow"
+ },
+ {
+  "hash": "00c991f4",
+  "text": "Go LOW! Head to the swings!",
+  "why": "clue:456:highlow"
+ },
+ {
+  "hash": "6774b86f",
+  "text": "Go HIGH! Head to the wobbly bridge!",
+  "why": "clue:456:highlow"
+ },
+ {
+  "hash": "6635bed7",
+  "text": "Go LOW! Head to the drinking fountain!",
+  "why": "clue:456:highlow"
+ },
+ {
+  "hash": "1f5b209b",
+  "text": "Go HIGH! Head to the fire pole!",
+  "why": "clue:456:highlow"
+ },
+ {
+  "hash": "98b882d1",
+  "text": "Go LOW! Head to the big bench!",
+  "why": "clue:456:highlow"
+ },
+ {
+  "hash": "904cbeec",
+  "text": "Go HIGH! Head to the tube slide!",
+  "why": "clue:456:highlow"
+ },
+ {
+  "hash": "87e7b21a",
+  "text": "Go LOW! Head to the entrance sign!",
+  "why": "clue:456:highlow"
+ },
+ {
+  "hash": "0e522ea1",
+  "text": "Start your loop at the entrance sign!",
+  "why": "clue:456:loop"
+ },
+ {
+  "hash": "92ecb142",
+  "text": "Keep walking! Next stop, the spinner.",
+  "why": "clue:456:loop"
+ },
+ {
+  "hash": "545f00fa",
+  "text": "Keep walking! Next stop, the tube slide.",
+  "why": "clue:456:loop"
+ },
+ {
+  "hash": "668a3e7f",
+  "text": "Keep walking! Next stop, the rope climbing net.",
+  "why": "clue:456:loop"
+ },
+ {
+  "hash": "3179deed",
+  "text": "Keep walking! Next stop, the wobbly bridge.",
+  "why": "clue:456:loop"
+ },
+ {
+  "hash": "3c874023",
+  "text": "Keep walking! Next stop, the top of the rocket tower.",
+  "why": "clue:456:loop"
+ },
+ {
+  "hash": "f44d81f1",
+  "text": "Keep walking! Next stop, the fire pole.",
+  "why": "clue:456:loop"
+ },
+ {
+  "hash": "e8de6762",
+  "text": "Keep walking! Next stop, the swings.",
+  "why": "clue:456:loop"
+ },
+ {
+  "hash": "aa5038a1",
+  "text": "Keep walking! Next stop, the drinking fountain.",
+  "why": "clue:456:loop"
+ },
+ {
+  "hash": "6db7ab9b",
+  "text": "Keep walking! Next stop, the big bench.",
+  "why": "clue:456:loop"
+ },
+ {
+  "hash": "c863d64f",
+  "text": "Bunny is hiding near the treasure chest. Go find it!",
+  "why": "clue:789:critters"
+ },
+ {
+  "hash": "3a6503ff",
+  "text": "Squirrel is hiding near the pirate ship. Go find it!",
+  "why": "clue:789:critters"
+ },
+ {
+  "hash": "4ef3ed22",
+  "text": "Turtle is hiding near the crawl tunnel. Go find it!",
+  "why": "clue:789:critters"
+ },
+ {
+  "hash": "add5551f",
+  "text": "Hedgehog is hiding near the crow's nest lookout. Go find it!",
+  "why": "clue:789:critters"
+ },
+ {
+  "hash": "64340167",
+  "text": "Frog is hiding near the sandy beach. Go find it!",
+  "why": "clue:789:critters"
+ },
+ {
+  "hash": "a08d976b",
+  "text": "Owl is hiding near the rope ladder. Go find it!",
+  "why": "clue:789:critters"
+ },
+ {
+  "hash": "377145dd",
+  "text": "Ladybug is hiding near the palm tree bench. Go find it!",
+  "why": "clue:789:critters"
+ },
+ {
+  "hash": "a66e27fd",
+  "text": "Fox is hiding near the twisty slide. Go find it!",
+  "why": "clue:789:critters"
+ },
+ {
+  "hash": "e24a62b5",
+  "text": "Snail is hiding near the swings. Go find it!",
+  "why": "clue:789:critters"
+ },
+ {
+  "hash": "e5e651ab",
+  "text": "Chick is hiding near the dock gate. Go find it!",
+  "why": "clue:789:critters"
+ },
+ {
+  "hash": "d7476144",
+  "text": "Power station 1! Run to the dock gate!",
+  "why": "clue:789:power"
+ },
+ {
+  "hash": "c7d4ebc1",
+  "text": "Power station 2! Run to the rope ladder!",
+  "why": "clue:789:power"
+ },
+ {
+  "hash": "00a417af",
+  "text": "Power station 3! Run to the crow's nest lookout!",
+  "why": "clue:789:power"
+ },
+ {
+  "hash": "97227939",
+  "text": "Power station 4! Run to the sandy beach!",
+  "why": "clue:789:power"
+ },
+ {
+  "hash": "e03bd555",
+  "text": "Power station 5! Run to the swings!",
+  "why": "clue:789:power"
+ },
+ {
+  "hash": "f8e7ceac",
+  "text": "Power station 6! Run to the pirate ship!",
+  "why": "clue:789:power"
+ },
+ {
+  "hash": "515acf03",
+  "text": "Power station 7! Run to the twisty slide!",
+  "why": "clue:789:power"
+ },
+ {
+  "hash": "6fb05b3d",
+  "text": "Power station 8! Run to the treasure chest!",
+  "why": "clue:789:power"
+ },
+ {
+  "hash": "8ea07c5d",
+  "text": "Power station 9! Run to the crawl tunnel!",
+  "why": "clue:789:power"
+ },
+ {
+  "hash": "019a0c5a",
+  "text": "Power station 10! Run to the palm tree bench!",
+  "why": "clue:789:power"
+ },
+ {
+  "hash": "d6bf1448",
+  "text": "Go HIGH! Head to the crow's nest lookout!",
+  "why": "clue:789:highlow"
+ },
+ {
+  "hash": "cbe1b8c8",
+  "text": "Go LOW! Head to the crawl tunnel!",
+  "why": "clue:789:highlow"
+ },
+ {
+  "hash": "70d1f80c",
+  "text": "Go HIGH! Head to the pirate ship!",
+  "why": "clue:789:highlow"
+ },
+ {
+  "hash": "c7e5e50f",
+  "text": "Go LOW! Head to the treasure chest!",
+  "why": "clue:789:highlow"
+ },
+ {
+  "hash": "308072e5",
+  "text": "Go HIGH! Head to the rope ladder!",
+  "why": "clue:789:highlow"
+ },
+ {
+  "hash": "8c08db3f",
+  "text": "Go LOW! Head to the sandy beach!",
+  "why": "clue:789:highlow"
+ },
+ {
+  "hash": "4ab99f6c",
+  "text": "Go HIGH! Head to the twisty slide!",
+  "why": "clue:789:highlow"
+ },
+ {
+  "hash": "e10bdb7b",
+  "text": "Go LOW! Head to the palm tree bench!",
+  "why": "clue:789:highlow"
+ },
+ {
+  "hash": "88a8f0a8",
+  "text": "Go HIGH! Head to the swings!",
+  "why": "clue:789:highlow"
+ },
+ {
+  "hash": "abe1e08f",
+  "text": "Go LOW! Head to the dock gate!",
+  "why": "clue:789:highlow"
+ },
+ {
+  "hash": "42be0b48",
+  "text": "Start your loop at the dock gate!",
+  "why": "clue:789:loop"
+ },
+ {
+  "hash": "2277e5de",
+  "text": "Keep walking! Next stop, the pirate ship.",
+  "why": "clue:789:loop"
+ },
+ {
+  "hash": "5e013973",
+  "text": "Keep walking! Next stop, the rope ladder.",
+  "why": "clue:789:loop"
+ },
+ {
+  "hash": "34d86afe",
+  "text": "Keep walking! Next stop, the twisty slide.",
+  "why": "clue:789:loop"
+ },
+ {
+  "hash": "b8dd80a2",
+  "text": "Keep walking! Next stop, the crow's nest lookout.",
+  "why": "clue:789:loop"
+ },
+ {
+  "hash": "5b7e8d25",
+  "text": "Keep walking! Next stop, the treasure chest.",
+  "why": "clue:789:loop"
+ },
+ {
+  "hash": "ea4293ed",
+  "text": "Keep walking! Next stop, the sandy beach.",
+  "why": "clue:789:loop"
+ },
+ {
+  "hash": "1cdcc0d6",
+  "text": "Keep walking! Next stop, the crawl tunnel.",
+  "why": "clue:789:loop"
+ },
+ {
+  "hash": "9cf1ad39",
+  "text": "Keep walking! Next stop, the palm tree bench.",
+  "why": "clue:789:loop"
+ }
+]

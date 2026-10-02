@@ -13,8 +13,10 @@ const KEY = 'playquest.v1';
 
 const DEFAULTS = {
   settings: {
-    sound: true,
-    voice: true,       // text-to-speech clues
+    sound: true,       // sound effects
+    music: true,       // light background music (ducks under the voice)
+    voice: true,       // spoken narration + clues
+    clips: true,       // use the pre-recorded natural voice clips (else device text-to-speech)
     testControls: true, // "Simulate correct / wrong tap" buttons
     pocket: false,     // Pocket Mode: hide on-screen text during games
     baseUrl: '',       // base URL written into tags ('' = this page)
@@ -62,6 +64,11 @@ export const store = {
   },
   clearActive(parkId) {
     if (this.data.progress[parkId]) { this.data.progress[parkId].active = null; this.save(); }
+  },
+
+    /** Badges won at a playground (count). */
+  wonCount(parkId, gameIds) {
+    return gameIds.filter((g) => this.gameStats(parkId, g).won).length;
   },
 
   /** Record a won game. Returns { newBest, prevBest }. */

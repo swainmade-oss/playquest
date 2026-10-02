@@ -1,0 +1,10 @@
+<!doctype html><html><head><title>PlayQuest art preview</title><link rel="stylesheet" href="../css/app.css"><style>body{background:#fff;-webkit-user-select:auto}.g{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;padding:6px}.g div{border:2px solid #ddd;border-radius:12px;text-align:center;font-size:11px}.g svg{width:100%}</style></head><body><div class="g" id="g"></div>
+<script type="module">
+import { SPOTS, GAME_ART, badgeArt } from '../js/ui/art.js';
+import { GAMES } from '../js/games/index.js';
+const g = document.getElementById('g');
+for (const [k, f] of Object.entries(SPOTS)) g.insertAdjacentHTML('beforeend', `<div>${f()}${k}</div>`);
+for (const [k, f] of Object.entries(GAME_ART)) g.insertAdjacentHTML('beforeend', `<div>${f()}${k}</div>`);
+for (const gm of GAMES) g.insertAdjacentHTML('beforeend', `<div>${badgeArt(gm, true)}${gm.id}</div>`);
+g.insertAdjacentHTML('beforeend', `<div>${badgeArt(GAMES[0], false)}locked</div>`);
+</script></body></html>
