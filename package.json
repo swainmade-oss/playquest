@@ -1,0 +1,15 @@
+{
+  "name": "playquest",
+  "version": "0.1.0",
+  "private": true,
+  "description": "PlayQuest: playground NFC quest games PWA (prototype)",
+  "type": "module",
+  "scripts": {
+    "serve": "python3 -m http.server 8080",
+    "icons": "node tools/make-icons.mjs",
+    "screenshots": "node tools/screenshots.mjs"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.50.0"
+  }
+}

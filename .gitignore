@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Logs / caches
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm/
+.cache/
+*.log
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Env / local
+.env
+.env.*
